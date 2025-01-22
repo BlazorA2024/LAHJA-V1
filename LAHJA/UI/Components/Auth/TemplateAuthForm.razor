@@ -1,0 +1,207 @@
+﻿@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@using LAHAJ.Loading
+@using LAHJA.Data.UI.Components.Base
+@using LAHJA.UI.Components.Auth
+
+@using LAHJA.UI.Components.Button
+@using Microsoft.Extensions.Options
+@using global::Shared.Wrapper
+@using LAHJA.Them
+
+@inherits CardAuth<DataBuildAuthBase>
+@inject IJSRuntime JSRuntime
+
+<Loading IsLoading="isLoading" />
+
+ <ReCaptchaComponent /> 
+
+
+
+
+<MudForm style="" id="Auth-Demo-form" @ref="form" onsubmit="onSubmitReCAPTCHA(event)"  @bind-IsValid="@success" @bind-Errors="@errors">
+
+
+   
+
+    @if (!IsLogin)
+    {
+
+        <MudTextField T="string" Disabled="false" Required="true" Label="PhoneNumber" RequiredError="Phone Number is required!" @bind-Value="@phoneNumber" />
+    }
+
+    <MudTextField T="string" Label="Email" Required="true" RequiredError="Email is required!"
+    Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})" @bind-Value="@email" />
+    <MudTextField T="string" Label="Password" HelperText="Choose a strong password" @ref="pwField1"
+    InputType="InputType.Password"
+    Validation="@(new Func<string, IEnumerable<string>>(PasswordStrength))" Required="true"
+    RequiredError="Password is required!" @bind-Value="@password" />
+
+    @if (!IsLogin)
+    {
+        <MudTextField T="string"
+        Label="Password" HelperText="Repeat the password" InputType="InputType.Password"
+        Validation="@(new Func<string, string>(PasswordMatch))" />
+    }
+
+    <div class="row mb-3">
+        <div class="offset-sm-4 col-sm-6">
+            <div id="html_element"></div>
+        </div>
+    </div>
+    <br />
+    <div class="d-flex align-center justify-space-between">
+        <MudCheckBox T="bool" Required="true" RequiredError="You must agree" Label="I agree!" />
+       @*  <span style="height:40px">
+            <CustomButton OnClick="Submit" Text="@(IsLogin ? "Login" : "Register")" IsProcessing="isProcessing" class="px-10 py-3" />
+        </span> *@
+   
+        <MudButton id="submitButton" Variant="Variant.Filled" Color="@AppColors.BASE_COLOR_ENUM" OnClick="Submit" Disabled="@(!success)" Class="ml-auto">@(IsLogin ? "Login" : "Register")</MudButton>
+
+    </div>
+
+
+
+
+    @if (IsLogin)
+
+    {
+
+        <div class="d-flex align-center justify-space-between">
+
+            <MudButton OnClick="onClickForgetPassword" Color="@AppColors.BASE_COLOR_ENUM">Forgot Password?</MudButton>
+        </div>
+
+        <div class="d-flex align-center justify-space-between">
+
+        @* <MudButton OnClick="showConfirmationEmail" Color="Color.Primary">Confirm Email</MudButton> *@
+
+        <MudButton OnClick="showResetPassword" Color="@AppColors.BASE_COLOR_ENUM">Reset Password</MudButton>
+    
+        </div>
+    }
+    else
+    {
+
+        // Re send Confirm email
+
+        <MudButton OnClick="onSubmitResendConfirmEmail" class="@AppTextStyle.TEXT_TRANSFORM_NORMAL" Color="@AppColors.BASE_COLOR_ENUM">Re Send Confirm Email</MudButton>
+        @*<ForgetPasswordForm IsDisplay="visibleForgetPassword" OnSubmited=OnSubmitedForgetPassword /> *@
+    }
+
+    @if (errors != null && errors.Count() > 0)
+    {
+        <MudAlert Severity="Severity.Error" Class="mt-3">
+            <ul>
+                @foreach (var error in errors)
+                {
+                    <li>@error</li>
+                }
+            </ul>
+        </MudAlert>
+    }
+
+
+</MudForm>
+
+
+
+
+@code{
+
+    bool isProcessing=false;
+    bool isLoading=false;
+    // bool visibleForgetPassword { get; set; }
+    // string[] errors { get; set; }
+
+    // private CardAuth<DataBuildAuthBase> cardAuth = new CardAuth<DataBuildAuthBase>();
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // isLoading = false;
+            // StateHasChanged();
+        }
+    }
+    async Task Submit(){
+
+        isProcessing = true;
+        // isLoading = true;
+        StateHasChanged();
+        DataBuildAuthBase data;
+
+        // var result = await JSRuntime.InvokeAsync<string>("onSubmitReCAPTCHA");
+        // if (result == null)
+        // {
+
+        //     errors = new string[] { MapperMessages.Map(
+        //             global::Shared.Constants.ErrorMessages.CHECK_FROM_RECAPTCHA_EN,
+        //             global::Shared.Constants.ErrorMessages.CHECK_FROM_RECAPTCHA_EN) };
+
+        // }
+        // else
+        {
+
+
+            if (IsLogin)
+            {
+                data=new DataBuildAuthBase()
+                {
+                        Email = email,
+                        Password = password
+
+                };
+            }
+            else
+            {
+
+                data = new DataBuildAuthBase()
+                {
+                        Email = email,
+                        Password = password,
+                        ConfirmPassword = repeatPassword,
+                        PhoneNumber = phoneNumber
+
+                };
+            }
+            data.IsLogin = IsLogin;
+
+                if (OnSubmit.HasDelegate)
+                {
+                     await OnSubmit.InvokeAsync(data);
+                }
+        }
+
+        isProcessing = false;
+        isLoading = false;
+
+        StateHasChanged();
+
+}
+
+
+
+    // async Task OnReSendConfirmationEmail()
+    // {
+
+
+
+    //     if (OnSubmitReSendConfirmEmail.HasDelegate)
+
+
+
+    //     {
+
+
+
+    //         await OnSubmitReSendConfirmEmail.InvokeAsync(new DataBuildAuthBase { Email = email, Code = code });
+
+
+
+    //     }
+
+
+
+    }
+

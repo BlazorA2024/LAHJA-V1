@@ -1,0 +1,55 @@
+@using LAHJA.ApiClient.Models
+@using LAHJA.ApiClient.Services.Query
+@using LAHJA.ApiClient.Services.VoiceBot
+@using LAHJA.Data.UI.Components.StudioLahjaAiVM
+@using LAHJA.Data.UI.Models
+@using LAHJA.Data.UI.Templates.Services
+@using LAHJA.Them
+@using MudBlazor
+@using LAHJA.Data.UI.Components.ServiceCard
+@using Microsoft.AspNetCore.Components
+
+@inject TemplateServices templateServices
+
+@inject ISnackbar Snackbar
+
+<T2Speech SubmitSend="@OnSubmit" />
+
+@code
+{
+
+   
+    private async Task OnSubmit(DataBuildServiceBase data)
+    {
+        try
+        {
+            data.ServiceId = "2";
+                var response = await templateServices.Text2Speech(data);
+                if (response.Succeeded)
+                {
+
+                }
+                else
+                {
+                    Snackbar.Add("·«ÌÊÃœ ·œÌﬂ —’Ìœ ﬂ«›Ì „‰ «·ÿ·»« ", Severity.Warning);
+
+                }
+            
+
+
+        }
+
+        catch (Exception ex)
+        {
+
+        }
+     
+
+    }
+
+   
+
+
+
+}
+

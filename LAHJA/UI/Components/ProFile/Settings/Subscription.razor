@@ -1,0 +1,106 @@
+﻿
+@using Domain.ShareData
+@using LAHJA.Data.UI.Components.Plan
+@using LAHJA.Data.UI.Components.Subscription
+@using LAHJA.Helpers.Services
+@using LAHJA.UI.Components.Plan
+
+@inject IManageLanguageService _manageLanguageService
+@inject LAHJA.Data.UI.Templates.Subscription.TemplateSubscription Template
+@inject NavigationManager Navigation
+
+
+@* @if (Template != null)
+{
+	<Subscription DataBuild="buildData" />
+} *@
+
+<main class="flex flex-1 flex-col">
+@* 	<ResendConfirmationemail /> *@
+
+	<div class="container relative max-w-full flex-1   md:pb-12 md:pt-8  ">
+
+
+		<MudText Typo="Typo.h3" Align="Align.Center" Class="text-center">@GetTranslation("SubscribeToPro")</MudText>
+			@if(_dataBuild != null && _dataBuild.Count()>0){
+
+				@foreach (var item in _dataBuild)
+				{
+					<MudContainer  Class="p-3">
+					<TemplatePlan Params="@item.SubscriptionPlan" SubmitUpgrade="OnSubmitUpgradePlan" IsUpgrade="true" AllowUpdate="true" IsDisplaySelectButton="false" IsExpanded="true" />
+					</MudContainer>
+				}
+
+			
+			}
+			
+		@* 	<div class="SVELTE_HYDRATER contents" data-target="UserSubscriptionForm" data-props="{&quot;isUserAuth&quot;:true,&quot;next&quot;:null,&quot;theme&quot;:&quot;light&quot;}">
+				<div>
+					<div class="alert alert-error whitespace-pre-wrap !rounded-t-none">Error: Your primary email must be confirmed to access paid features.</div> <div class="py-4">
+						<div class="flex h-40 w-full items-center justify-center">
+							<svg class="animate-spin mr-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" fill="none" focusable="false" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+							Initializing Payment...
+						</div>
+					</div>
+				</div>
+			</div> *@
+	
+	</div>
+</main>
+
+@code{
+
+
+	[Parameter] public List<UserSubscription> DataBuild { get => _dataBuild; set => _dataBuild = value; }
+
+	private List<UserSubscription> _dataBuild = new List<UserSubscription>();
+
+	private  string CurrentLanguage = "ar";
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+
+		if (firstRender)
+		{
+	
+			CurrentLanguage = await _manageLanguageService.GetLanguageAsync();
+			InvokeAsync(StateHasChanged);
+
+
+		}
+
+		
+
+	}
+	private void ChangeLanguage(string language)
+	{
+		CurrentLanguage = language;
+		InvokeAsync(StateHasChanged);
+	}
+
+
+	private void OnSubmitUpgradePlan(SubscriptionPlanInfo plan)
+	{
+		Navigation.NavigateTo("/payment/"+plan.Id);
+	}
+
+	private string GetTranslation(string key)
+	{
+		return CurrentLanguage == "ar"
+			? TransAr.GetValueOrDefault(key, key)
+			: TransEn.GetValueOrDefault(key, key);
+	}
+
+	private Dictionary<string, string> TransEn = new Dictionary<string, string>()
+	{
+		{ "SubscribeToPro", "Subscribe to Pro" },
+
+	};
+
+	private Dictionary<string, string> TransAr = new Dictionary<string, string>()
+	{
+		{ "SubscribeToPro", "الترقية الى  Pro" },
+
+	};
+
+}

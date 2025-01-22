@@ -1,0 +1,336 @@
+﻿
+@page "/settings/{*Url}"
+@using MudBlazor
+@using Domain.ShareData
+@using LAHJA.Data.UI.Components.ProFileModel
+@using LAHJA.Helpers.Services
+@using LAHJA.UI.Components.ProFile.Cards
+@using LAHJA.UI.Components.ProFile.Settings
+@using LAHJA.UI.Components.ProFile.USettings
+@using LAHJA.UI.Templates.Subscription
+  
+@inherits ComponentBase
+@inject NavigationManager NavigationManager
+@inject LanguageService languageService
+@inject IManageLanguageService _manageLanguageService
+  
+@* <ResendConfirmationemail />   *@
+
+
+
+    @if(DataBuild!=null)
+    {
+
+    <div style="overflow:hidden;position:relative;height:100%" class=" m-0 relative flex flex-wrap justify-content-around align-items-start md:grid md:space-y-0 w-full md:grid-cols-12 space-y-4 md:gap-6 py-6">
+           
+  
+        <div class="nav-menu-continer-items-lg md:col-span-3 lg:col-span-3">
+            <MudContainer Class="w-100" >
+                <MudContainer Class="pt-1 border px-3 border-gray-100 rounded-xl bg-gradient-to-l overflow-hidden p-0" style="background-color:none!important">
+          
+                    <UserAvaterCard Name="@data.Name" PhoneNumber="@data.Phone" ImageUrl="@data.ImageUrl" />
+       
+                    <MudDivider Class="my-3 py-1" />
+                    <MudList T="string" >
+                        @foreach (var item in NavItems)
+                        {
+                         
+                            <MudNavLink style="padding:0% !important; margin:0px !important" Icon="@item.Icon"  Href="@item.Url" Match="NavLinkMatch.All" OnClick="() => SetActiveTab(item.Url)">
+                                    <MudText Typo="Typo.body2">@item.Label</MudText>
+                                    @if (!string.IsNullOrEmpty(item.Badge))
+                                    {
+                                        <MudText Typo="Typo.caption" Class="ml-auto mr-1.5 rounded text-xs font-semibold leading-tight bg-blue-500/10 text-blue-700 dark:text-blue-200">@item.Badge</MudText>
+                                    }
+                            </MudNavLink>
+                        
+                        }
+                    </MudList>
+             
+
+       
+                </MudContainer>
+                <MudContainer Class="mt-3 flex items-center gap-2 text-sm text-gray-400">
+                    Upgrade to
+                    <MudLink Href="/settings/billing/subscription#subscribe" Class="flex items-center">
+                        <MudIcon Icon="mdi-crown" Class="mr-1" />
+                        Pro
+                    </MudLink>
+            </MudContainer>
+           </MudContainer>
+        </div>
+
+        <div class="nav-menu-continer-items-sm w-100">
+            <div class="d-flex flex-row justify-content-start align-items-start w-100" style="justify-content:end !important;">
+                <MudIconButton Icon="@Icons.Material.Filled.Menu" OnClick="ToggleMenu" />
+            </div>
+        
+            <MudMainContent Class="nav-profile-menu-continer-items-sm w-100 ">
+                <MudDrawer @bind-Open="@_open" Fixed="true" Elevation="0" Class="h-100" Anchor="Anchor.End" Variant="@DrawerVariant.Temporary">
+                    <MudNavMenu Class="font-size-nav-v2" >
+
+                        <UserAvaterCard Name="@data.Name" PhoneNumber="@data.Phone" ImageUrl="@data.ImageUrl" />
+                        <MudDivider Class="my-3 py-1" />
+                        @foreach (var item in NavItems)
+                        {
+                            <MudNavLink Icon="@item.Icon" Match="NavLinkMatch.All"  OnClick="() => SetActiveTab(item.Url)">
+                                <MudText Typo="Typo.body2">@item.Label</MudText>
+                                @if (!string.IsNullOrEmpty(item.Badge))
+                                {
+                                    <MudText Typo="Typo.caption" Class="ml-auto mr-1.5 rounded text-xs font-semibold leading-tight bg-blue-500/10 text-blue-700 dark:text-blue-200">@item.Badge</MudText>
+                                }
+                            </MudNavLink>
+
+                        }
+                    </MudNavMenu>
+                    <MudDivider Class="my-3 py-1" />
+                    <MudContainer Class="mt-3 flex items-center gap-2 text-sm text-gray-400">
+                    Upgrade to
+                    <MudLink Href="/settings/billing/subscription#subscribe" Class="flex items-center">
+                        <MudIcon Icon="mdi-crown" Class="mr-1" />
+                        Pro
+                    </MudLink>
+            </MudContainer>
+                </MudDrawer>
+            </MudMainContent>
+        </div>
+        @* Container *@
+        <MudContainer style="overflow:hidden;position:relative;" Class="md:col-span-9  sm:col-span-12 lg:col-span-9 mt-0  border-1">
+            <MudDrawerContainer Class="mud-height-full" >
+         
+
+                @*     <MudMenu Class="mr-2">
+            <ActivatorContent>
+            <MudAvatar>
+            <MudImage Style="width:70px;height:70px" Src="@data.ImageUrl" />
+            </MudAvatar>
+            <MudText Typo="Typo.h5" Class="font-bold">@data.Name</MudText>
+
+            </ActivatorContent>
+
+            <ChildContent>
+            <MudMenuItem>Profile</MudMenuItem>
+            <MudMenuItem>Theme</MudMenuItem>
+            <MudMenuItem>Usage</MudMenuItem>
+            <MudMenuItem>Sign Out</MudMenuItem>
+            </ChildContent>
+            </MudMenu>
+            <MudChip Class="mt-1" T="object" Color="Color.Default" Variant="Variant.Outlined">@data.Phone</MudChip>
+
+            <MudDivider Class="my-3 py-1" /> *@
+
+                @*    <div class="nav-menu-continer-items-sm p-2">
+          
+            </div> *@
+
+            
+
+        
+            <MudTabs>
+                <MudTabPanel>
+                    @if (!string.IsNullOrEmpty(Url))
+                    {
+                        @RenderComponentBasedOnUrl
+                    }
+                    else
+                    {
+                        <Dashboard />
+                    }
+                </MudTabPanel>
+            </MudTabs>
+            </MudDrawerContainer>
+        </MudContainer>
+
+    </div>
+
+}
+else
+{
+    <h1>Error the element !!</h1>
+}
+
+
+@code
+{
+
+    private bool _open = false;
+    [Parameter] public string Url { get; set; } = "profile"; 
+    [Parameter] public DataBuildUserProfile DataBuild { get => data; set => data=value; }
+
+    private static string CurrentLanguage = "ar";
+
+    private DataBuildUserProfile data = new DataBuildUserProfile();
+    private void ToggleMenu()
+    {
+        _open = !_open;
+        StateHasChanged();
+    }
+    protected override void OnInitialized()
+    {
+
+        languageService.OnLanguageChanged += ChangeLanguage;
+        ChangeLanguage(CurrentLanguage);
+
+    }
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+
+        if (firstRender)
+        {
+            CurrentLanguage = await _manageLanguageService.GetLanguageAsync();
+            InvokeAsync(StateHasChanged);
+        }
+
+
+    }
+
+    private static string GetLabel(string key)
+    {
+        return Translations[CurrentLanguage].ContainsKey(key) ? Translations[CurrentLanguage][key] : key;
+    }
+
+    private List<NavItem> NavItems;
+
+    private static Dictionary<string, Dictionary<string, string>> Translations = new()
+        {
+            ["en"] = new()
+            {
+                ["Statistics"] = "Statistics",
+                ["Profile"] = "Profile",
+                ["Account"] = "Account",
+                ["Subscriptions"] = "Subscriptions",
+                ["Authentication"] = "Authentication",
+                ["Organizations"] = "Organizations",
+                ["Billing"] = "Billing",
+                ["Access Tokens"] = "Access Tokens",
+                ["SSH and GPG Keys"] = "SSH and GPG Keys",
+                ["Webhooks"] = "Webhooks",
+                ["Papers"] = "Papers",
+                ["Notifications"] = "Notifications",
+                ["Local Apps and"] = "Local Apps and",
+                ["Gated Repositories"] = "Gated Repositories",
+                ["Spaces"] = "Spaces",
+                ["Connected Apps"] = "Connected Apps",
+                ["Theme"] = "Theme"
+            },
+            ["ar"] = new()
+            {
+                ["Statistics"] = "الاحصائيات",
+                ["Profile"] = "الملف الشخصي",
+                ["Account"] = "الحساب",
+                ["Subscriptions"] = "الاشتراكات",
+                ["Authentication"] = "التحقق",
+                ["Organizations"] = "المنظمات",
+                ["Billing"] = "الفوترة",
+                ["Access Tokens"] = "رموز الوصول",
+                ["SSH and GPG Keys"] = "مفاتيح SSH و GPG",
+                ["Webhooks"] = "Webhooks",
+                ["Papers"] = "الأوراق",
+                ["Notifications"] = "الإشعارات",
+                ["Local Apps and"] = "التطبيقات المحلية و",
+                ["Gated Repositories"] = "المستودعات المحمية",
+                ["Spaces"] = "المساحات",
+                ["Connected Apps"] = "التطبيقات المتصلة",
+                ["Theme"] = "السمة"
+            }
+        };
+
+    private void ChangeLanguage(string language)
+    {
+        CurrentLanguage = language;
+        NavItems=  new()
+        {
+            new NavItem { Label = GetLabel("Statistics"),Icon=@Icons.Material.Filled.QueryStats, Url = "settings/Statistics" },
+            new NavItem { Label = GetLabel("Profile"),Icon=@Icons.Material.Filled.Person, Url = "settings/profile" },
+            new NavItem { Label = GetLabel("Account"),Icon=@Icons.Material.Filled.ManageAccounts, Url = "settings/Account" },
+            new NavItem { Label = GetLabel("Subscriptions"),Icon=@Icons.Material.Filled.Subscriptions, Url = "settings/SubscriptionTemplate" },
+            new NavItem { Label = GetLabel("Billing"), Url = "settings/billing" },
+            new NavItem { Label = GetLabel("Authentication"), Url = "settings/authentication" },
+            new NavItem { Label = GetLabel("Organizations"), Url = "settings/organizations" },
+            new NavItem { Label = GetLabel("Access Tokens"), Url = "settings/AccessTokens" },
+            new NavItem { Label = GetLabel("SSH and GPG Keys"), Url = "settings/keys" },
+            new NavItem { Label = GetLabel("Webhooks"), Url = "settings/webhooks" },
+            new NavItem { Label = GetLabel("Papers"), Url = "settings/papers" },
+            new NavItem { Label = GetLabel("Notifications"),Icon=@Icons.Material.Filled.Notifications, Url = "settings/notifications" },
+            new NavItem { Label = GetLabel("Local Apps and"), Url = "settings/local-apps", Badge = "NEW" },
+            new NavItem { Label = GetLabel("Gated Repositories"), Url = "settings/gated-repos" },
+            new NavItem { Label = GetLabel("Spaces"), Url = "settings/content-preferences" },
+            new NavItem { Label = GetLabel("Connected Apps"), Url = "settings/applications" },
+            new NavItem { Label = GetLabel("Theme"), Url = "settings/theme" }
+        };
+        StateHasChanged();
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void SetActiveTab(string url)
+    {
+        _open = !_open;
+        Url = url;
+        NavigationManager.NavigateTo(url);
+       
+    }
+
+    private RenderFragment RenderComponentBasedOnUrl => builder =>
+    {
+        if (builder == null)
+        {
+            throw new ArgumentNullException(nameof(builder));
+        }
+
+        if (string.IsNullOrEmpty(Url))
+        {
+            Url = "settings/profile";
+        }
+
+        var componentMap = new Dictionary<string, Type>
+                        {
+                { "Statistics", typeof(Dashboard) },
+                { "profile", typeof(ProfileForm) },
+                { "Account", typeof(AccountTemplate) },
+                { "SubscriptionTemplate", typeof(SubscriptionTemplate) },
+                { "billing", typeof(BillingSection) },
+                { "authentication", typeof(AuthenticationTemplate) },
+                { "organizations", typeof(OrganizationsTemplate) },
+                { "AccessTokens", typeof(AccessTokensTemplate) },
+                { "keys", typeof(SSHandGPGKeysTemplate) },
+                { "keys/addtype=ssh", typeof(KeysAddaSSHkey) },
+                { "keys/addtype=pgp", typeof(Keysaddapgpp) },
+                { "webhooks", typeof(WebhooksTemplate) },
+                { "webhooks/new", typeof(Newwebhook) },
+                { "papers", typeof(PapersTemplate) },
+                { "notifications", typeof(NotificationsTemplate) },
+                { "local-apps", typeof(LocalAppsTemplate) },
+                { "gated-repos", typeof(GatedRepositoriesTemplate) },
+                { "content-preferences", typeof(ContentPreferencesTemplate) },
+                { "applications", typeof(ConnectedAppsTemplate) },
+                { "applications/new", typeof(NewCreateanOAuthapp) },
+                { "theme", typeof(ThemeTemplate) }
+              };
+
+
+
+        // تحديد المكون بناءً على `url`
+        if (componentMap.TryGetValue(Url, out var componentType))
+        {
+            builder.OpenComponent(0, componentType);
+            builder.CloseComponent();
+        }
+        else
+        {
+            // مكون افتراضي إذا لم يتم العثور على `url`
+            builder.OpenComponent(0, typeof(BillingSection));
+            builder.CloseComponent();
+        }
+    };
+
+    private class NavItem
+    {
+        public string Label { get; set; }
+        public string Url { get; set; }
+        public string Badge { get; set; }
+        public string Icon { get; set; } = @Icons.Material.Filled.Check;
+    }
+
+
+
+}

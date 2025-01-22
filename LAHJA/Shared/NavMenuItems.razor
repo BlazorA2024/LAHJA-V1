@@ -1,0 +1,90 @@
+﻿@inject NavigationManager NavigationManager
+
+
+@if(Translation!=null){
+
+     @if (IsDisplay)
+    {
+
+        <MudLink class="isMenu-show" OnClick="ClickItem" Href="/" Style="@("color:" + _iconfill + "!important")">
+            @Translation[CurrentLanguage]["Home"]
+        </MudLink>
+
+        @if (Flagauth)
+        {
+            <MudLink OnClick="ClickItem" Style="@("color:" + _iconfill + "!important")" Href="/Login">
+                @Translation[CurrentLanguage]["Register"]
+            </MudLink>
+       @*      <div class="">
+                <MudLink Style="@("color:" + _iconfill + "!important")" Href="/Login">
+                    @Translation[CurrentLanguage]["Login"]
+                </MudLink>
+            </div> *@
+        }
+
+        <MudLink class="isMenu-show" OnClick="ClickItem" Style="@("color:" + _iconfill + "!important")" Href="/Plans">
+            @Translation[CurrentLanguage]["Plans"]
+        </MudLink>
+
+        <MudLink class="isMenu-show" OnClick="ClickItem" Style="@("color:" + Iconfill + "!important")" Href="/CategoriesPlan">
+            @Translation[CurrentLanguage]["Categories"]
+        </MudLink>
+
+        <MudLink class="isMenu-show" OnClick="ClickItem" Style="@("color:" + _iconfill + "!important")" Href="/services">
+            @Translation[CurrentLanguage]["Services"]
+        </MudLink>
+
+       @*  <MudLink class="isMenu-show" OnClick="ClickItem"  Style="@("color:" + _iconfill + "!important")" Href="/payment">
+            @Translation[CurrentLanguage]["Payment"]
+
+        </MudLink>   *@
+        
+        <MudLink class="isMenu-show" OnClick="ClickItem"  Style="@("color:" + _iconfill + "!important")" Href="/studio">
+            @Translation[CurrentLanguage]["Studio"]
+        </MudLink> 
+         @if (!@Flagauth){
+
+            <MudLink class="isMenu-show" OnClick="ClickItem" Style="@("color:" + _iconfill + "!important")" Href="/trainingModel">
+            @Translation[CurrentLanguage]["TrainingModel"]
+        </MudLink>
+         }
+   
+         @if (!@Flagauth && @NavigationManager.Uri == @NavigationManager.BaseUri)
+        {
+
+            @* <MudButton Variant="Variant.Text" OnClick="@(() => logout(true))"> @Translation[CurrentLanguage]["Logout"]</MudButton> *@
+            @* <Logout OnClickLogout="@(() => logout(true))" /> *@
+        }
+    
+
+
+    }
+
+}
+
+@code {
+
+    [Parameter] public Dictionary<string, Dictionary<string, string>> Translation{ get; set; }
+    [Parameter] public bool IsDisplay { get; set; }
+    [Parameter] public bool RightToLeft { get; set; }
+    [Parameter] public bool Flagauth { get; set; }
+    [Parameter] public string CurrentLanguage { get; set; }
+    [Parameter] public string Iconfill { get => _iconfill; set { _iconfill = value; StateHasChanged(); } }
+    [Parameter] public EventCallback<bool> Logout { get; set; }
+    [Parameter] public EventCallback ClickItem { get; set; }
+
+    private string _iconfill = "#fff";
+
+    private void onClickMe()
+    {
+        
+    }
+
+    private async void logout(bool flag)
+    {
+        if (Logout.HasDelegate)
+        {
+            await Logout.InvokeAsync(flag);
+        }
+    }
+}

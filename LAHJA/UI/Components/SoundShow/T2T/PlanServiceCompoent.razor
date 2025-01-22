@@ -1,0 +1,74 @@
+﻿@using LAHJA.Data.UI.Components.ServiceVM
+
+
+
+
+
+
+  
+    
+
+
+
+
+
+
+
+    @if (DataBuild != null)
+    {
+
+            <MudGrid>
+    @foreach (var item in DataBuild)
+    {
+
+
+
+    
+
+            <MudItem xs="12" sm="4">
+                <MudCard Class="pa-4">
+                    <MudCardContent>
+                        <MudText Typo="Typo.body1" Class="mb-2">@item.Name</MudText>
+                      
+                        <MudText Typo="Typo.body2">
+                            @item.Descrption
+                        </MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Default" Class="mt-2">$@item.Price</MudText>
+                    </MudCardContent>
+                    <MudCardActions>
+
+                        <MudButton Variant="Variant.Outlined" Color="Color.Success" FullWidth="true">
+                            @((!IsArabic ? "احصل على القسيمة" : "GET VOUCHER"))
+                        </MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+       
+    }
+    </MudGrid>
+    }
+
+
+ 
+
+
+
+
+
+
+
+   
+@code 
+
+{
+
+    [Parameter] public List<ServiceaAppModel>DataBuild { get; set; } = null;
+
+
+    [Parameter] public bool IsArabic { get; set; }= false;
+ 
+
+   
+
+   
+}

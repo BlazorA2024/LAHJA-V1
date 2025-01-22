@@ -1,0 +1,77 @@
+﻿
+@using LAHJA.Data.UI.Components.Base
+@using MudBlazor
+@using System.ComponentModel.DataAnnotations
+@using global::Shared.Constants.Router
+@* @inherits LayoutComponentBase *@
+@inject NavigationManager navigation;
+@inherits CardAuth<DataBuildAuthBase>
+
+<MudText Typo="Typo.h6">
+    <h4 class="d-flex align-center justify-content-center flex-column">
+        Re Send Confirmation Email
+    </h4>
+</MudText>
+
+<MudContainer Style="width:100% !important" class="w-100 border  d-flex align-center justify-content-center flex-column">
+
+
+    <MudForm Style="width:100% !important" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+        <div class="d-flex align-center justify-content-center flex-column" style="padding:2% 2%;margin:auto 10px;width:100% !important ">
+           
+
+            <MudTextField T="string" Class="my-5" FullWidth Label="Email" Required="true" RequiredError="Email is required!"
+                          Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})" @bind-Value="@email" />
+
+
+            <MudCardActions Class="col-12 mt-5 row d-flex flex-wrap justify-content-around align-content-around">
+                <MudButton Variant="Variant.Filled" Color="@Color.Primary" Class="col-lg-4 col-md-7 col-sm-12" OnClick="onSubmit" Disabled="isLoading">
+                    Re Send Confirm Email
+                </MudButton>
+                <MudButton OnClick="onCloseDialog" Variant="Variant.Text" Class="col-lg-4 col-md-7 col-sm-12" Color="Color.Secondary">Cancel</MudButton>
+            </MudCardActions>
+
+        </div>
+    </MudForm>
+
+</MudContainer>
+
+
+
+@code {
+
+
+
+    // [Parameter] public string Email { get; set; }
+    // protected override void OnInitialized()
+    // {
+
+    //     if (Email != null)
+    //     {
+    //             email = Email;
+
+    //             StateHasChanged();
+    //     }
+
+    // }
+
+
+    async Task onSubmit()
+    {
+        // if (form.IsValid)
+        {
+            // if (success)
+            {
+                if (OnSubmitReSendConfirmEmail.HasDelegate)
+                {
+
+                    await OnSubmitReSendConfirmEmail.InvokeAsync(new DataBuildAuthBase { Email = email });
+                }
+            }
+        }
+    }
+}
+
+
+}
+

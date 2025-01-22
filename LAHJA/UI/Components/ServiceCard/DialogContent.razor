@@ -1,0 +1,29 @@
+﻿@using LAHJA.Data.UI.Components.ServiceCard
+@using LAHJA.Data.UI.Components.ServiceCard
+<MudDialog>
+    <DialogContent>
+
+
+
+
+        <AddFormFilter DataBuild1="DataBuild1" DataBuildCheck="DataBuildCheck" />
+                 
+    </DialogContent>
+    <DialogActions>
+
+      @*   <MudButton Variant="Variant.Text" Color="Color.Secondary" OnClick="CloseDialog">Close</MudButton> *@
+
+    </DialogActions>
+</MudDialog>
+
+@code {
+   
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; }
+  
+    [Parameter] public List<ModelProperties> DataBuildCheck { get; set; } = null;
+    [Parameter] public List<ModelProperties> DataBuild1 { get; set; } = null;
+    private void CloseDialog() => MudDialog.Close(DialogResult.Ok(true));
+
+  
+}

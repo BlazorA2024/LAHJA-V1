@@ -1,0 +1,32 @@
+﻿
+<MudContainer Class="p-3">
+    <MudMenu Class="mr-2">
+        <ActivatorContent>
+            <MudAvatar>
+               <MudImage Style="width:70px;height:70px" Src="@ImageUrl" />
+            </MudAvatar>
+            @if (!string.IsNullOrEmpty(Name))
+            {
+                    <MudText Typo="Typo.h5" Class="font-bold">@Name</MudText>
+            }
+
+        </ActivatorContent>
+        <ChildContent>
+            <MudMenuItem>Profile</MudMenuItem>
+            <MudMenuItem>Theme</MudMenuItem>
+            <MudMenuItem>Usage</MudMenuItem>
+            <MudMenuItem>Sign Out</MudMenuItem>
+        </ChildContent>
+    </MudMenu>
+</MudContainer>
+@if (!string.IsNullOrEmpty(PhoneNumber))
+{
+    <MudChip Class="mt-1" T="object" Color="Color.Default" Variant="Variant.Outlined">@PhoneNumber</MudChip>
+}
+
+@code {
+    [Parameter] public string Name { get; set; }
+    [Parameter] public string ImageUrl { get; set; } = "avater";
+    [Parameter] public string PhoneNumber{ get; set; }
+
+}

@@ -1,0 +1,167 @@
+﻿@page "/services"
+@using LAHJA.UI.Components.ServiceCard
+@using LAHJA.UI.Components.StudioLahjaAi
+@using LAHJA.UI.Templates.Carousel
+@using LAHJA.UI.Templates.CategoriesPlan
+@using LAHJA.UI.Templates.Plans
+@using LAHJA.UI.Templates.Services
+
+ 
+<TemplateServices   />
+@* <TemplateCarousel  /> *@
+
+@using Microsoft.AspNetCore.Components
+
+
+
+
+
+   <ContenerChatComponent />
+
+
+
+ @* <MudDropContainer T="DropItem" Items="_items" ItemsSelector="@((item, dropzone) => item.Identifier == dropzone)" ItemDropped="ItemUpdated">
+     <ChildContent>
+         <MudPaper MinHeight="500px" Class="d-flex flex-1">
+             <MudList T="string" Dense="true" @bind-SelectedValue="_selectedFolder">
+                 <MudListSubheader>Studio AI</MudListSubheader>
+
+                 @foreach (var dropZone in DropZones)
+
+                 {
+                     <MudDropZone T="DropItem" Identifier="@dropZone.Identifier" OnlyZone="true">
+                         <MudListItem Text="@dropZone.Text" Value="@dropZone.Identifier" Icon="@dropZone.Icon" />
+                     </MudDropZone>
+                 }
+
+                 <!-- Categories -->
+                 <MudListItem Icon="@Icons.Material.Filled.Label" Text="Tune a Model" Expanded="true">
+                     <NestedList>
+                         @foreach (var category in Categories)
+
+                         {
+                             <MudDropZone T="DropItem" Identifier="@category.Identifier" OnlyZone="true">
+                                 <MudListItem Dense="true" Text="@category.Text" Value="@category.Identifier" Icon="@category.Icon" Class="pl-8" />
+                             </MudDropZone>
+                         }
+                     </NestedList>
+                 </MudListItem>
+             </MudList>
+
+             <MudDivider Vertical="true" FlexItem="true" />
+
+             <!-- ToolBar and Items -->
+             <MudList T="string" Dense="true" Class="d-flex flex-column flex-grow-1 py-0">
+                 <MudToolBar Gutters="false" Dense="true">
+                     <MudCheckBox @bind-Value="ToolbarCheckBox" />
+                     <MudIconButton Icon="@Icons.Material.Filled.Refresh" />
+                     <MudIconButton Icon="@Icons.Material.Filled.MoreVert" />
+                     <MudSpacer />
+                     <MudIconButton Icon="@Icons.Material.Filled.ChevronLeft" />
+                     <MudIconButton Icon="@Icons.Material.Filled.ChevronRight" />
+                 </MudToolBar>
+
+                 <MudDivider />
+
+                 <!-- Drop Zone for Selected Folder -->
+                 <MudDropZone T="DropItem" Identifier="@_selectedFolder.ToString()" Class="flex-grow-1" />
+             </MudList>
+         </MudPaper>
+     </ChildContent>
+
+     <!-- Item Renderer -->
+     <ItemRenderer>
+         <MudListItem T="string" Text="@context.Name" />
+         <MudDivider />
+         <MainCardService    />
+     </ItemRenderer>
+ </MudDropContainer>
+  *@
+@code {
+    public bool ToolbarCheckBox { get; set; } = false;
+
+    string _selectedFolder = "Inbox";
+
+
+
+    private void ItemUpdated(MudItemDropInfo<DropItem> dropItem)
+
+    {
+
+        dropItem.Item.Identifier = dropItem.DropzoneIdentifier;
+
+    }
+
+
+
+    private List<DropItem> _items = new()
+    {
+        new DropItem(){ Name = "Your exchange rate and Klarna benefits here", Identifier = "Get Space Key" },
+        new DropItem(){ Name = "IKEA - Betalningsbekräftelse för din order", Identifier = "Create Prompt" },
+        new DropItem(){ Name = "Leverans beställd till dig​", Identifier = "Stream Realtime" },
+        new DropItem(){ Name = "You’ve Got Sales! Cotton Bureau On Demand Report for Thursday, February 24, 2022", Identifier = "Starter Apps" },
+        new DropItem(){ Name = "Answer: Offer to buy mudblazor", Identifier = "Tune a Model" },
+        new DropItem(){ Name = "Inloggningsvarning för Facebook Messenger for Android", Identifier = "Social" },
+        new DropItem(){ Name = "Nya privata meddelanden på SweClockers", Identifier = "Forums" },
+    };
+
+
+
+    private List<DropZoneData> DropZones = new()
+    {
+        new DropZoneData { Identifier = "Inbox", Text = "Get Space Key", Icon = "@Icons.Material.Filled.Inbox" },
+        new DropZoneData { Identifier = "Sent", Text = "T2T", Icon = "@Icons.Material.Filled.Send" },
+        new DropZoneData { Identifier = "Sent", Text = "T2S", Icon = "@Icons.Material.Filled.Send" },
+        new DropZoneData { Identifier = "Sent", Text = "VoiceBot", Icon = "@Icons.Material.Filled.Send" },
+        new DropZoneData { Identifier = "Sent", Text = "Stream Realtime", Icon = "@Icons.Material.Filled.Send" },
+        new DropZoneData { Identifier = "Drafts", Text = "Starter Apps", Icon = "@Icons.Material.Filled.Drafts" }
+    };
+
+
+
+    private List<CategoryData> Categories = new()
+    {
+        new CategoryData { Identifier = "Social", Text = "Social", Icon = "@Icons.Material.Filled.Group" },
+        new CategoryData { Identifier = "Forums", Text = "Forums", Icon = "@Icons.Material.Filled.Forum" }
+    };
+
+
+
+    public class DropItem
+
+    {
+
+        public string Name { get; init; }
+
+        public string Identifier { get; set; }
+
+    }
+
+
+
+    public class DropZoneData
+
+    {
+
+        public string Identifier { get; set; }
+
+        public string Text { get; set; }
+
+        public string Icon { get; set; }
+
+    }
+
+
+
+    public class CategoryData
+
+    {
+
+        public string Identifier { get; set; }
+
+        public string Text { get; set; }
+
+        public string Icon { get; set; }
+
+    }
+}

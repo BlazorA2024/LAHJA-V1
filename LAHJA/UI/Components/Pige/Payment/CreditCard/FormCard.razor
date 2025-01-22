@@ -1,0 +1,220 @@
+﻿@using Domain.ShareData
+@using LAHJA.Data.UI.Components.Base
+@using LAHJA.Data.UI.Components.Payment.CreditCard
+@using LAHJA.Helpers.Services
+@using LAHJA.Them
+
+
+ @inject LanguageService languageService
+@inject IManageLanguageService _manageLanguageService
+@inherits PaymentCard<CardDetails>
+
+
+<MudPaper Class="pa-4 w-100">
+    <MudText Typo="Typo.h6" Align="Align.Center">@GetTranslation("Title")</MudText>
+    <MudForm Model="@newCard" @ref="form">
+        <MudGrid Class="justify-space-between">
+            <MudItem xs="12">
+                <MudTextField Label="@GetTranslation("CardNumber")"
+                              @bind-Value="newCard.CardNumber"
+                              Variant="Variant.Text" />
+            </MudItem>
+
+            <MudItem xs="6">
+                <MudTextField Label="@GetTranslation("ExpirationDate")"
+                              @bind-Value="newCard.ExpirationDate"
+                              Variant="Variant.Text" />
+            </MudItem>
+
+            <MudItem xs="6">
+                <MudTextField Label="@GetTranslation("CVC")"
+                              @bind-Value="newCard.CVC"
+                              Variant="Variant.Text"
+                              InputType="InputType.Password" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudSelect T="string" @bind-Value="newCard.CardType" Label="@GetTranslation("CardType")">
+                    <MudSelectItem Value=@("MasterCard")>MasterCard</MudSelectItem>
+                    <MudSelectItem Value=@("Visa")>Visa</MudSelectItem>
+                    <MudSelectItem Value=@("Visa")>Amex</MudSelectItem>
+                </MudSelect>
+            </MudItem>
+
+            <MudItem xs="12" Class="mt-2">
+                <MudButton Class="w-100" Color="@AppColors.BASE_COLOR_ENUM" Variant="Variant.Filled" OnClick="Save">
+                    @(IsUpdate ? GetTranslation("Update") : GetTranslation("AddCard"))
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudForm>
+</MudPaper>
+
+@*     <MudPaper Class="pa-4 w-100"  >
+
+        <MudText Typo="Typo.h6" Align="Align.Center">@Title</MudText>
+        <MudForm Model="@newCard" @ref="form"  >
+            <MudGrid Class="justify-space-between">
+          
+
+                <MudItem xs="12">
+                    <MudTextField Label="Card Number"
+                        
+                                  @bind-Value="newCard.CardNumber"
+                                  Variant="Variant.Text"
+                                  />
+                </MudItem>
+
+                <MudItem xs="6">
+                    <MudTextField Label="Expiration Date (MM/YY)"
+                           
+                                  @bind-Value="newCard.ExpirationDate"
+                                  Variant="Variant.Text"
+                                   />
+                </MudItem>
+
+            
+                <MudItem xs="6">
+                    <MudTextField Label="CVC"
+                                  @bind-Value="newCard.CVC"
+                                  Variant="Variant.Text"
+                                  InputType="InputType.Password"
+                              
+                                   />
+                </MudItem>
+
+            
+                <MudItem xs="12">
+                    <MudSelect @bind-Value="newCard.CardType" Label="Card Type">
+                        <MudSelectItem Value=@("MasterCard")>MasterCard</MudSelectItem>
+                        <MudSelectItem Value=@("Visa")>Visa</MudSelectItem>
+                        <MudSelectItem Value=@("Visa")>Amex</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+
+
+
+           
+
+         
+                <MudItem xs="12" Class="mt-2">
+                    <MudButton Class="w-100" Color="@AppColors.BASE_COLOR_ENUM" Variant="Variant.Filled" OnClick="Save">@(IsUpdate?"Update":"Add Card")</MudButton>
+                </MudItem>
+            </MudGrid>
+    </MudForm>
+    </MudPaper> *@
+
+ 
+
+@code
+{
+    private string CurrentLanguage = "ar";
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public CardDetails BuildData { get => newCard; set => newCard = value; }
+    [Parameter] public bool IsUpdate { get; set; } = false;
+    [Parameter] public string? Title { get; set; } = "";
+
+    private CardDetails newCard = new CardDetails();
+    private MudForm form;
+
+    private  Dictionary<string, string> TransEn = new Dictionary<string, string>()
+    {
+        { "Title", "Card Details" },
+        { "CardNumber", "Card Number" },
+        { "ExpirationDate", "Expiration Date (MM/YY)" },
+        { "CVC", "CVC" },
+        { "CardType", "Card Type" },
+        { "MasterCard", "MasterCard" },
+        { "Visa", "Visa" },
+        { "Amex", "Amex" },
+        { "AddCard", "Add Card" },
+        { "Update", "Update" }
+    };
+
+    private Dictionary<string, string> TransAr = new Dictionary<string, string>()
+    {
+        { "Title", "تفاصيل البطاقة" },
+        { "CardNumber", "رقم البطاقة" },
+        { "ExpirationDate", "تاريخ الانتهاء (MM/YY)" },
+        { "CVC", "CVC" },
+        { "CardType", "نوع البطاقة" },
+        { "MasterCard", "ماستر كارد" },
+        { "Visa", "فيزا" },
+        { "Amex", "أميكس" },
+        { "AddCard", "إضافة بطاقة" },
+        { "Update", "تحديث" }
+    };
+
+    protected override void OnInitialized()
+    {
+        languageService.OnLanguageChanged += ChangeLanguage;
+        ChangeLanguage(CurrentLanguage);
+      
+    }
+    protected override async void OnAfterRender(bool firstRender)
+    {
+
+        if (firstRender)
+        {
+            CurrentLanguage = await _manageLanguageService.GetLanguageAsync();
+            InvokeAsync(StateHasChanged);
+        }
+
+
+    }
+    private void ChangeLanguage(string language)
+    {
+
+        CurrentLanguage = language;
+        StateHasChanged();
+    }
+
+    private async Task Save()
+    {
+
+        try
+        {
+            newCard.IsSelected = true ;
+            if (OnClickSave.HasDelegate && newCard!=null)
+            {   
+                await OnClickSave.InvokeAsync(newCard);
+
+            }
+        }
+        catch(Exception ex)
+        {
+            
+        }
+
+       
+
+     
+    }
+
+
+    private string GetTranslation(string key)
+    {
+        if (CurrentLanguage == "ar")
+        {
+            return TransAr.ContainsKey(key) ? TransAr[key] : key;
+        }
+        else
+        {
+            return TransEn.ContainsKey(key) ? TransEn[key] : key;
+        }
+    }
+
+
+    // private void onCancel()
+    // {
+    //     MudDialog.Close(DialogResult.Cancel());
+
+    // }
+
+
+    // private void onConfirm()
+    // {
+    //     MudDialog.Close(DialogResult.Ok(true));
+    // }
+}

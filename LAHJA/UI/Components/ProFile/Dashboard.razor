@@ -1,0 +1,31 @@
+﻿@using LAHJA.UI.Components.ProFile.Charts
+@using LAHJA.UI.Components.Statistics
+<div class="d-flex p-2 flex-wrap justify-content-around align-items-start">
+
+    <MainPieChart />
+    @* < div class="mt-4" />
+    <LineChart />
+
+    <div class="mt-5" />
+    <TimeSeriesChart />
+
+    <BarChart />
+
+    <div class="mt-4" />
+    <PieChart />
+    <DonutChart />
+    <MudPaper Class="pa-4">
+        <MudChart ChartType="ChartType.Pie" InputData="@ValuesRequest" @bind-SelectedIndex="Index"
+                  InputLabels="@labels" Width="300px" Height="300px" />
+    </MudPaper>*@
+   
+</div>  
+
+
+
+@code {
+    private int Index = -1;
+    public double[] ValuesRequest { set; get; } = new double[] { 6, 5, 7 };
+    string[] labels = { "Used", "Fair", "Unused" };
+
+}

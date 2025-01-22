@@ -1,0 +1,287 @@
+﻿@using Domain.ShareData
+@using LAHJA.Data.UI.Components.Payment.CreditCard
+@using LAHJA.Data.UI.Components.Payment.CreditCards
+@using LAHJA.Helpers.Services
+@using LAHJA.Them
+@using LAHJA.UI.Components.Payment.CreditCard
+@using MudBlazor
+@using System.Globalization
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject LanguageService languageService
+@inject IManageLanguageService _manageLanguageService
+
+
+
+
+<MudExpansionPanels>
+    @if (creditCards == null || creditCards.Count == 0)
+    {
+        <MudExpansionPanel @bind-Expanded="@open" HideIcon="true">
+            <TitleContent>
+                <div class="d-flex">
+                    <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined">
+                        @GetTranslation("AddNewCard")
+                    </MudAlert>
+                    <MudCard Elevation="1" Class="m-2 p-2">
+                        <MudIcon Color="@AppColors.BASE_COLOR_ENUM" @onclick="OnAddCard" Icon="@(open ? Icons.Material.Filled.Close : Icons.Material.Filled.Add)" class="ml-auto"></MudIcon>
+                    </MudCard>
+                </div>
+            </TitleContent>
+            <ChildContent>
+                <FormCard IsUpdate="isUpdate" BuildData="selectedCard" OnClickSave="OnSaveCard" />
+            </ChildContent>
+        </MudExpansionPanel>
+    }
+    else
+    {
+        <MudExpansionPanels >
+            <MudExpansionPanel  @bind-Expanded="@open" HideIcon="true">
+                <TitleContent>
+                    <MudCardHeader Class="p-0 d-flex flex-row justify-content-center align-items-center ">
+                        <MudText Typo="Typo.h4" Align="Align.Center" GutterBottom="true">@GetTranslation("CreditCards")</MudText>
+                    </MudCardHeader>
+                    <div class="d-flex flex-column">
+                        <MudCard Elevation="1" Class="m-2 p-2">
+                            <MudIcon Color="@AppColors.BASE_COLOR_ENUM" @onclick="OnAddCard" Icon="@(Icons.Material.Filled.Add)" class="ml-auto"></MudIcon>
+                        </MudCard>
+               @*           <MudRadioGroup  T="CardDetails" ValueChanged="OnSelectedCard"> *@
+                            <div class="d-flex flex-wrap justify-content-start align-items-center w-100">
+                                @foreach (var card in creditCards)
+                                {
+                                    <CreditCard BuildData="card" OnSetDefault="OnSelectedCard" OnDelete="OnDeleteCard" OnEdit="OnEditCard" />
+                                }
+                            </div>
+                        @* </MudRadioGroup> *@
+                        @if (_isSelected)
+                        {
+                            <MudButton Class="w-100 my-3" Variant="Variant.Filled" Color="@AppColors.BASE_COLOR_ENUM" OnClick="@OnConfirmSelectedCard">
+                                @GetTranslation("Confirm")
+                            </MudButton>
+                        }
+                    </div>
+                </TitleContent>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+    }
+</MudExpansionPanels>
+
+@code
+{
+
+    private string CurrentLanguage = "ar";
+    public static Dictionary<string, string> TransEn = new Dictionary<string, string>()
+    {
+        { "CreditCards", "Credit Cards" },
+        { "AddNewCard", "Add New Card" },
+        { "EditCard", "Edit Credit Card" },
+        { "Expiry", "Expiry" },
+        { "CardType", "Card Type" },
+        { "Confirm", "Confirm" },
+        { "Cancel", "Cancel" },
+        { "Update", "Update" },
+        { "Save", "Save" },
+    };
+
+    public static Dictionary<string, string> TransAr = new Dictionary<string, string>()
+    {
+        { "CreditCards", "بطاقات الائتمان" },
+        { "AddNewCard", "إضافة بطاقة جديدة" },
+        { "EditCard", "تعديل بطاقة الائتمان" },
+        { "Expiry", "تاريخ الانتهاء" },
+        { "CardType", "نوع البطاقة" },
+        { "Confirm", "تأكيد" },
+        { "Cancel", "إلغاء" },
+        { "Update", "تحديث" },
+        { "Save", "حفظ" },
+    };
+
+
+    [Parameter] public EventCallback<CardDetails> SelectedCard { get; set; }
+    [Parameter] public EventCallback<CardDetails> CreateCard { get; set; }
+    [Parameter] public EventCallback<CardDetails> EditCard { get; set; }
+    [Parameter] public EventCallback<CardDetails> DeleteCard { get; set; }
+
+    [Parameter] public List<CardDetails> BuildData { get => creditCards; set => creditCards=value; }
+
+
+    private List<CardDetails> creditCards = new List<CardDetails>{ };
+    private CardDetails selectedCard = new CardDetails();
+    private bool open, isUpdate = false;
+    private bool _expanded = false;
+    private bool _isSelected = false;
+
+    private IDialogReference dialogRef;
+
+    protected override async void OnInitialized()
+    {
+      
+
+
+        if (creditCards != null  && SelectedCard.HasDelegate)      
+        {
+            if ((selectedCard == null || string.IsNullOrEmpty(selectedCard.CardNumber)) && creditCards?.Count() > 0)
+                selectedCard = creditCards[0];
+
+            if (selectedCard!=null)
+                await SelectedCard.InvokeAsync(selectedCard);
+        }
+
+        // languageService.OnLanguageChanged += ChangeLanguage;
+        ChangeLanguage(CurrentLanguage);
+    }
+
+
+
+
+    private async Task OnAddCard()
+    {
+        isUpdate = false;
+        // selectedCard = new CardDetails();
+        StateHasChanged();
+
+        await ShowCardDialog(GetTranslation("AddNewCard"), false, OnSaveCard, new CardDetails());
+        // var parameters = new DialogParameters
+        // {
+        //     { "Title","Add new Card" },
+        //     { "IsUpdate", false },
+        //     { "OnClickSave", EventCallback.Factory.Create<CardDetails>(this, OnSaveCard) }
+        // };
+        // var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, FullWidth = false };
+        // dialogRef = DialogService.Show<FormCard>("", parameters, options);
+
+ 
+    }
+    private async Task OnDeleteCard(CardDetails card)
+    {
+        if (DeleteCard.HasDelegate && card != null)
+            await DeleteCard.InvokeAsync(selectedCard);
+    }
+    private async Task OnEditCard(CardDetails card)
+    {
+
+        isUpdate = true;
+        open = true;
+        selectedCard = card;
+        StateHasChanged();
+        await ShowCardDialog(GetTranslation("EditCard"), true, OnSaveCard, card);
+    }
+    private async void OnSelectedCard(CardDetails card)
+    {
+        _isSelected = true;
+        selectedCard = card;
+        selectedCard.IsSelected = true;
+        if (SelectedCard.HasDelegate && selectedCard != null)
+            await SelectedCard.InvokeAsync(selectedCard);
+        StateHasChanged();
+    }
+    private async void OnConfirmSelectedCard()
+    {
+
+
+        if (SelectedCard.HasDelegate && selectedCard!=null)
+        {
+            // foreach (var item in creditCards)
+            // {
+            //     if (!item.IsSelected)
+            //         item.IsSelected = false;
+            // }
+            selectedCard.IsSelected = true;
+            await SelectedCard.InvokeAsync(selectedCard);
+        }
+    }
+    private async void OnSaveCard(CardDetails data)
+    {
+        if (data != null)
+        { 
+            //On Selected Card
+        //     selectedCard = data;
+        //     _isSelected = true;
+        //     if (SelectedCard.HasDelegate)
+        //         await SelectedCard.InvokeAsync(selectedCard);
+        // }
+        // else
+        // {
+            if (dialogRef != null)
+                dialogRef.Close();
+
+            if (isUpdate)
+            {
+                if (EditCard.HasDelegate)
+                {
+                    await EditCard.InvokeAsync(data);
+                }
+
+            }
+            else
+            {
+
+                creditCards.Add(data);
+                _isSelected = true;
+                if (CreateCard.HasDelegate)
+                {
+                    await CreateCard.InvokeAsync(data);
+                }
+            }
+        }
+
+       
+
+        StateHasChanged();
+    }
+
+ 
+    private async Task ShowCardDialog(string title, bool isUpdate, Action<CardDetails> callBack, CardDetails? data)
+    {
+        var parameters = new DialogParameters
+        {
+            { "Title",title },
+            { "BuildData", data! },
+            { "IsUpdate", isUpdate },
+            { "OnClickSave", EventCallback.Factory.Create<CardDetails>(this, callBack) }
+        };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall, FullWidth = false };
+        dialogRef = DialogService.Show<FormCard>("", parameters, options);
+
+        var result = await dialogRef.Result;
+
+        //  if (result?.Canceled==false)
+        // {
+
+        // }
+
+    }
+    private string GetTranslation(string key)
+    {
+        if (CurrentLanguage == "ar")
+        {
+            return TransAr.ContainsKey(key) ? TransAr[key] : key;
+        }
+        else
+        {
+            return TransEn.ContainsKey(key) ? TransEn[key] : key;
+        }
+    }
+
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+      // "en" أو "ar"
+
+        if (firstRender)
+        {
+            CurrentLanguage = await _manageLanguageService.GetLanguageAsync();
+            InvokeAsync(StateHasChanged);
+        }
+
+
+    }
+    private void ChangeLanguage(string language)
+    {
+        // ااخ
+        CurrentLanguage = language;
+        StateHasChanged();
+    }
+ 
+
+}

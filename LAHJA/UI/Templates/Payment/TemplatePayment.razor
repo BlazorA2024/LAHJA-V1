@@ -1,0 +1,174 @@
+﻿@page "/payment"
+@page "/payment/{planId}"
+@using LAHAJ.Loading
+@using LAHJA.Data.UI.Components
+@using LAHJA.Data.UI.Components.Payment.DataBuildBillingBase
+@using LAHJA.Data.UI.Components.Payment.CreditCard
+@using LAHJA.Data.UI.Components.Plan
+@using LAHJA.Data.UI.Templates.CreditCard
+@using LAHJA.Data.UI.Templates.Payment
+@using LAHJA.Helpers.Services
+@using LAHJA.UI.Components.Billing.Shared
+@using LAHJA.UI.Components.Payment
+@using global::Shared.Constants.Router
+
+
+@inject LAHJA.Data.UI.Templates.Plans.TemplatePlans TemplatePlan
+@inject LAHJA.Data.UI.Templates.Payment.TemplatePayment templatePayment
+@inject LAHJA.Data.UI.Templates.Billing.TemplateBilling TemplateBilling
+@inject LAHJA.Data.UI.Templates.CreditCard.TemplateCreditCard templateCreditCard
+@inject AuthService AuthService;
+@inject NavigationManager Navigation;
+
+@if (templatePayment != null && templateCreditCard!=null  )
+{
+        @if (isLoading)
+        {
+
+            <Loading IsLoading="isLoading" />
+
+        } else
+        {
+
+            <PaymentComponts BuildPlanData="buildPlanData" BuildBillingData="buildBillingData" SubmitPayment="onSubmitPaymentCheckOut" BuildCreditCardData="buildCreditCardData" OnSelect="onSubmitActiveCreditCard" />
+        }
+}
+
+
+@code{
+
+    [Parameter] public string planId { get; set; }
+    private bool isLoading = true;
+    private SubscriptionPlanInfo buildPlanData;
+    private DataBuildBillingBase? buildBillingData;
+    private List<CardDetails>? buildCreditCardData;
+
+    private List<string> errors;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var isLogin = await AuthService.isAuth();
+            if (isLogin)
+            {
+                if (planId != null)
+                {
+                    await initializePlanAsync();
+                    await initializeBillingDetailsAsync();
+                    await initializeCreditCardDetailsAsync();
+
+                }
+
+                isLoading = false;
+                StateHasChanged();
+            }
+        }
+
+        StateHasChanged();
+
+    }
+    private async Task initializePlanAsync()
+    {
+        if (planId != null)
+        {
+            var planResult = await TemplatePlan.GetSubmitSubscriptionPlan(new DataBuildPlansBase { PlanId = planId });
+            if (planResult.Succeeded)
+            {
+                buildPlanData = planResult.Data;
+            }
+            else
+            {
+                errors = planResult.Messages;
+
+            }
+
+            StateHasChanged();
+        }
+    }
+    private async Task initializeBillingDetailsAsync()
+    {
+
+
+        var billingsResult = await TemplateBilling.GetBillingDetails();
+
+
+        if (billingsResult.Succeeded)
+        {
+            buildBillingData = billingsResult.Data;
+        }
+        else
+        {
+            errors = billingsResult.Messages;
+        }
+
+        StateHasChanged();
+
+    }
+    private async Task initializeCreditCardDetailsAsync()
+    {
+        var creditsResult = await templateCreditCard.GetCreditCardDetails();
+
+        if (creditsResult.Succeeded)
+        {
+            buildCreditCardData = creditsResult.Data;
+        }
+        else
+        {
+            errors = creditsResult.Messages;
+        }
+
+        StateHasChanged();
+    }
+    private async Task onSubmitPaymentCheckOut(SubscriptionPlanInfo plan)
+    {
+
+        if (templatePayment.BuilderComponents.SubmitPaymentCheckOut != null && plan!=null)
+            await templatePayment.BuilderComponents.SubmitPaymentCheckOut(new DataBuildPaymentBase { PlanId = plan.Id });
+    }
+    private async Task onSubmitActiveCreditCard(CardDetails card)
+    {
+        if (templateCreditCard.BuilderComponents.SubmitActiveCreditCard != null && card != null)
+            await templateCreditCard.BuilderComponents.SubmitActiveCreditCard(new DataBuildCreditCardBase { CreditCardId = card.CardNumber });
+    }
+    private async Task getPaymentCheckoutUrlPageAsync()
+    {
+
+        var res2 = await templatePayment.getPaymentCheckoutUrlPage(new DataBuildPaymentBase { PlanId = planId });
+
+        if (res2.Data != null)
+
+            Navigation.NavigateTo(res2.Data.url ?? RouterPage.HOME);
+    }
+    // {
+
+    //     var res2 = await Template.getPaymentCheckoutUrlPage(new DataBuildPaymentBase { PlanId = "price_1Pst3IKMQ7LabgRTZV9VgPex" });
+
+    //     if (res2.Data != null)
+
+    //         Navigation.NavigateTo(res2.Data.url ?? RouterPage.HOME);
+
+       
+
+
+
+
+
+
+
+    //     StateHasChanged();
+
+
+
+
+
+
+
+
+
+
+
+    // }
+
+}
+
+  

@@ -1,0 +1,153 @@
+﻿@page "/"
+@using Domain.ShareData
+@using LAHAJ.Loading
+@using LAHJA.Helpers.Services
+@using LAHJA.UI.Components
+@using LAHJA.UI.Components.FAQ
+@using LAHJA.UI.Components.Icon
+@using LAHJA.UI.Components.Icon.ServicisCard
+@using LAHJA.UI.Components.Index
+@using LAHJA.UI.Components.Training
+@using LAHJA.UI.Templates.CategoriesPlan
+@using LAHJA.UI.Templates.Plans
+
+@inject NavigationManager navigation;
+@inject LanguageService languageService
+@inject IManageLanguageService _manageLanguageService
+
+@* @if (isLoading)
+{
+    <Loading IsLoading="isLoading" />
+
+}else{ *@
+
+<CardStart />
+<CardShowExperience  />
+
+  <HeroHome /> 
+  @* <CardAsgFeatures /> *@
+@* <HeroHome /> *@
+ <CardAsgr /> 
+ 
+
+
+
+
+
+<div class="d-flex flex-column justify-content-center align-items-center" style="padding:5% !important ;background:linear-gradient(90deg, rgba(240, 150, 255, 0.15) 0%, rgba(191, 200, 252, 0.15) 51%, rgba(187, 148, 255, 0.15) 100%);">
+    <MudText Typo="Typo.h3">
+        @GetTranslation("OurServices")
+    </MudText>
+    <p> @GetTranslation("OurServicesDescription") </p>
+
+    <div class="d-flex my-5 flex-wrap">
+        <TemplateCategoriesPlan />
+    </div>
+</div>
+<div class="d-flex flex-column justify-content-center align-items-center" style="padding:5% !important">
+    <MudText Typo="Typo.h3">
+        @GetTranslation("ChoosePlan")
+    </MudText>
+    <p> @GetTranslation("PlanDescription") </p>
+
+    <div class="d-flex my-5 flex-wrap" style="width: 100%;">
+        <TemplatePlans CountItemsShow="4" />
+    </div>
+</div>
+
+<Mainicon/>
+<TestimonialsHome />
+
+
+<AnmCard />
+
+<NumberCard />
+
+<br />
+
+<FAQComponent />
+ @* <SectionSercicis/> *@
+
+
+<Footer />
+
+
+@* } *@
+@code {
+
+
+
+    // A dictionary to store translations for both Arabic and English
+
+
+    private bool isLoading = true;
+
+    private static readonly Dictionary<string, Dictionary<string, string>> Translations = new()
+        {
+
+            ["en"] = new()
+
+            {
+
+                ["OurServices"] = "Our Advanced Services",
+
+                ["OurServicesDescription"] = "Explore the innovative solutions we offer through three main services, designed to meet your needs in an easy and efficient way.",
+
+                ["ChoosePlan"] = "Choose Your Ideal Plan",
+
+                ["PlanDescription"] = "Start with full confidence. The 30-day money-back guarantee means a risk-free experience."
+
+            },
+
+            ["ar"] = new()
+
+            {
+
+                ["OurServices"] = "خدماتنا المتقدمة",
+
+                ["OurServicesDescription"] = "إستكشف حلولنا المبتكرة التي نقدمها لك من خلال ثلاث خدمات رئيسية، تم تصميمها لتلبية احتياجاتك بطريقة سهلة وفعّالة",
+
+                ["ChoosePlan"] = "اختر خطتك المثالية",
+
+                ["PlanDescription"] = "ابدأ بثقة كاملة. ضمان استرداد رسوم التسجيل لمدة 30 يومًا يعني تجربة بدون مخاطر."
+
+            }
+
+        };
+
+
+    private string CurrentLanguage = "ar"; // Default language is English
+    private string GetTranslation(string key)
+    {
+
+        return Translations[CurrentLanguage].ContainsKey(key) ? Translations[CurrentLanguage][key] : key;
+    }
+    protected override void OnInitialized()
+    {
+
+        languageService.OnLanguageChanged += UpdateContent;
+
+    }
+    protected override async void OnAfterRender(bool firstRender)
+
+    {
+        if (firstRender)
+        {
+            CurrentLanguage = await _manageLanguageService.GetLanguageAsync();
+
+            isLoading = false;
+            InvokeAsync(StateHasChanged);
+
+        }
+     
+
+    }
+    protected async void UpdateContent(string currentLangCode)
+    {
+
+        CurrentLanguage = currentLangCode;
+        InvokeAsync(StateHasChanged);
+
+
+    }
+}

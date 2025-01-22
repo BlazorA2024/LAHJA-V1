@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+	  <AssemblyName>LAHJA</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Infrastructure\**" />
+    <Compile Remove="UI\Teamplat\**" />
+    <Content Remove="Infrastructure\**" />
+    <Content Remove="UI\Teamplat\**" />
+    <EmbeddedResource Remove="Infrastructure\**" />
+    <EmbeddedResource Remove="UI\Teamplat\**" />
+    <None Remove="Infrastructure\**" />
+    <None Remove="UI\Teamplat\**" />
+  </ItemGroup>
+	<ItemGroup>
+
+		<PackageReference Include="Blazorise.Captcha" Version="1.6.2" />
+
+		<PackageReference Include="Blazorise.Captcha.ReCaptcha" Version="1.6.2" />
+
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.0" />
+
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="9.0.0" />
+
+		<PackageReference Include="MudBlazor" Version="7.15.0" />
+		<PackageReference Include="Blazor-ApexCharts" Version="0.9.16-beta" />
+		<PackageReference Include="MudBlazor.ThemeManager" Version="2.1.0" />
+		<PackageReference Include="System.IO.Pipelines" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+
+	</ItemGroup>
+	<ItemGroup>
+		
+		<PackageReference Include="IdentityModel" Version="6.0.0" />
+		<PackageReference Include="NSwag.AspNetCore" Version="8.0.2" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="ApplicationLayer\RequestEvent\" />
+	  <Folder Include="ApplicationLayer\Roles\" />
+	  <Folder Include="ApplicationLayer\ServiceMethod\" />
+	  <Folder Include="ApplicationLayer\Setting\" />
+	  <Folder Include="Data\UI\Components\Profile\" />
+	  <Folder Include="Data\UI\Templates\NewFolder1\" />
+	  <Folder Include="Data\UI\Templates\Request\" />
+	  <Folder Include="Data\UI\Templates\Setting\" />
+	  <Folder Include="UI\Components\FeatureServices\" />
+	  <Folder Include="UI\Components\NewFolder\" />
+	  <Folder Include="UI\Components\Training\" />
+	  <Folder Include="UI\Components\SidebarMen\" />
+	  <Folder Include="UI\Templates\Sections\Profile\" />
+	  <Folder Include="wwwroot\assets\images\Icon\" />
+	  <Folder Include="wwwroot\css\fonts\Jozoor_Font\__MACOSX\" />
+	  <Folder Include="wwwroot\js\NewFolder\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Application\Application.csproj" />
+	  <ProjectReference Include="..\Domain\Domain.csproj" />
+	  <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+	</ItemGroup>
+ 
+
+
+</Project>
+
+
+
