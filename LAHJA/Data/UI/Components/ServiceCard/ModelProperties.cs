@@ -8,6 +8,9 @@ namespace LAHJA.Data.UI.Components.ServiceCard
     {
 
 
+
+
+
         public string Id { get; set; }
         public string Type { get; set; }
         public string Voice { get; set; }
@@ -15,7 +18,6 @@ namespace LAHJA.Data.UI.Components.ServiceCard
         public string Dialect { get; set; }
         public bool IsSelected { get; set; }
         public string Input { get; set; } = "السلام عليكم ";
-        
         public string OutPut { get; set; }
         public decimal Price { get; set; }
         public string Sender { get; set; }
@@ -33,13 +35,41 @@ namespace LAHJA.Data.UI.Components.ServiceCard
         public string ModelImageUrl { get; set; }
         public string UsageCount { get; set; }
         public string Tab { get; set; }
+        public List<string>ListAuther { get; set;}
 
+
+    }
+    public static class AppServerApi
+    {
+
+        public static string getToken(string type)
+        {
+            return "dhghghgh2222ghg35635242@@@bsghghghwgjhghjfsj,g,,dhghgghghgs.ghgwww@@";
+        }
+        public static Dictionary<string, List<string>> ParseToken(string token)
+        {
+            var result = new Dictionary<string, List<string>>();
+            return result;
+
+        }
+
+
+        public static string verificationRequest(string Token)
+        {
+
+            return "dd";
+        }
 
 
     }
 
 
-    public class StartStepModel
+       
+
+
+
+
+        public class StartStepModel
     {
         public int StepNumber { get; set; }
         public string Title { get; set; }
@@ -116,7 +146,22 @@ namespace LAHJA.Data.UI.Components.ServiceCard
 
 
 
+        public void SerchAuther()
+        {
 
+            Dictionary<string, List<string>> ListAuther = new Dictionary<string, List<string>>()
+        {
+
+            {"",new List<string>(){} },
+            {"",new List<string>(){} },
+            {"",new List<string>(){} },
+            {"",new List<string>(){} }
+
+        };
+
+
+     
+        }
 
 
 

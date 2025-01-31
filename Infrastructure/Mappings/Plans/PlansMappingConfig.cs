@@ -37,11 +37,10 @@ namespace Infrastructure.Mappings.Plans
             CreateMap<ContainerPlansModel, ContainerPlans>().ReverseMap();
             CreateMap<ContainerPlansModel, ContainerPlans>().ReverseMap();
             CreateMap<PlanCreateModel, PlanCreate>().ReverseMap();
-            CreateMap<PlanServicesUpdateModel, PlanServicesUpdate>().ReverseMap(); 
-            
-            
-        
-       
+            CreateMap<PlanServicesUpdateModel, PlanServicesUpdate>().ReverseMap();
+
+
+
 
             //    .ForMember(dest => dest.likes, opt => opt.MapFrom(src => src.likes != null ? src.likes.Count : 0))
             //.ReverseMap();

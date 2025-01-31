@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.DataSource.ApiClient.Plans
 {
+    using Infrastructure.DataSource.Seeds;
     using System.Collections.Generic;
 
     public class Service
@@ -130,11 +131,12 @@ namespace Infrastructure.DataSource.ApiClient.Plans
             try
             {
 
-                var client = await GetApiClient();
-                var response = await client.GetPlansAsync();
+                //var client = await GetApiClient();
+                //var response = await client.GetPlansAsync();
 
-                var resModel = _mapper.Map<List<ContainerPlansModel>>(response);
-                return Result<IEnumerable<ContainerPlansModel>>.Success(resModel);
+                
+                //var resModel = _mapper.Map<List<ContainerPlansModel>>(response);
+                return Result<IEnumerable<ContainerPlansModel>>.Success(SeedsPlansContainers.db);
 
             }
             catch (ApiException e)
@@ -153,7 +155,7 @@ namespace Infrastructure.DataSource.ApiClient.Plans
             {
 
                 var client = await GetApiClient();
-                var response = await client.GetPlansAsync();
+                var response = await client.GetPlansAsync(); ;
 
 
                 var resModel = _mapper.Map<IEnumerable<PlanResponseModel>>(response);
@@ -247,7 +249,7 @@ namespace Infrastructure.DataSource.ApiClient.Plans
             {
 
                 var client = await GetApiClient();
-                var response =  await client.AsGroupAsync();
+                var response =  await client.AsGroupAsync("ar");
 
 
                 var resModel = _mapper.Map<IEnumerable<PlansGroupModel>>(response);
@@ -273,12 +275,15 @@ namespace Infrastructure.DataSource.ApiClient.Plans
             {
 
                 var client = await GetApiClient();
-                var response = await client.GetPlansAsync();
-                if(response == null)
+                var response = await client.AsGroupAsync("ar");
+                var response2 = response.OrderBy(p => p.Amount).ToList();
+                
+
+                if (response == null)
                     return Result<IEnumerable<SubscriptionPlanModel>>.Success();
 
 
-                var resModel = _mapper.Map<IEnumerable<SubscriptionPlanModel>>(response);
+                var resModel = _mapper.Map<IEnumerable<SubscriptionPlanModel>>(response2);
                 return Result<IEnumerable<SubscriptionPlanModel>>.Success(resModel);
 
             }
@@ -299,7 +304,7 @@ namespace Infrastructure.DataSource.ApiClient.Plans
             {
 
                 var client = await GetApiClient();
-                var response = await client.GetPlanAsync(id);
+                var response = await client.GetPlanAsync(id,"en");
                 var resModel = _mapper.Map<PlanResponseModel>(response);
                 return Result<PlanResponseModel>.Success(resModel);
 

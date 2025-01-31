@@ -1,6 +1,7 @@
 ﻿@using LAHAJ.Loading
 @using LAHJA.UI.Components.Auth
 @using LAHJA.Data.UI.Templates.Auth
+@using LAHJA.UI.Components.Index.MainSectionCard
 @using LAHJA.UI.Components.Plan
 
 @inject LAHJA.Data.UI.Templates.Plans.TemplatePlans Template
@@ -34,6 +35,8 @@ else{
     {
         if (firstRender)
         {
+
+            
             await Template.getAllSubscriptionsPlansAsync(_countItemsShow,2);
             isLoading = false;
 

@@ -96,7 +96,7 @@ namespace Infrastructure.DataSource.Seeds
 
         public static List<Service> dbServices = new List<Service>();
         public string Language { get; set; } = "ar";
-        private static List<ContainerPlansModel> db= new List<ContainerPlansModel>();
+        public static List<ContainerPlansModel> db= new List<ContainerPlansModel>();
 
 
 

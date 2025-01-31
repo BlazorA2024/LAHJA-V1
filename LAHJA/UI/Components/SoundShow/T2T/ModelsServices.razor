@@ -1,11 +1,11 @@
 ﻿@page "/model"
 
 @page "/model/{NameService}"
-
 @using Domain.ShareData
 @using LAHJA.Data.UI.Components.ServiceCard
- 
+
 @using LAHJA.Data.UI.Components.ServiceVM
+@using LAHJA.UI.Components.IframeCompoents
 @using LAHJA.UI.Components.Plan
 @using LAHJA.UI.Components.SoundShow
 @using LAHJA.UI.Components.StudioLahjaAi
@@ -16,7 +16,7 @@
 @inject LanguageService languageService
 @inject IManageLanguageService _manageLanguageService
 
-
+@inject ISnackbar snackbar
 
 <MudDivider Class="my-4" />
 
@@ -27,18 +27,17 @@
 <MudContainer MaxWidth="MaxWidth.Large" >
 
 
+    
 
-
-
-      <iframe src="@($"https://modelspeech.onrender.com/t2speech/?token=tttt&name_model={NameService}")"
+    <iframe src="@($"https://modelspeech.onrender.com/t2speech/?token=tttt&name_model={NameService}")"
             width="100%"
             height="600"
             style="border: none;height:450px">
-    </iframe>
+    </iframe> 
 
 
-@*     <AddFormTextOrSpeech TypeLanguage="@IsEnglish" DataBuild="@addformdatabuild" />
- *@    @*   <AddFormTextOrSpeechh/> *@
+
+  
 
   
   
@@ -50,9 +49,9 @@
 <MudDivider Class="my-4" />
 <MudContainer MaxWidth="MaxWidth.Medium" >
 
-
+    
     <PlanServiceCompoent DataBuild="dataBuildplan" IsArabic="@IsEnglish" />
-
+   
 </MudContainer>
 
 
@@ -145,7 +144,7 @@
             {
                 new DialectModel { Id = 3, Name = "US", Services = new List<ServiceaAppModel>
                 {
-                    new ServiceaAppModel { Id = "5", Name = "Service US_A", Descrption = "This is Service E", Price = 200.75m,Type="Sound" }
+                    new ServiceaAppModel { Id = "5", Name = "Service US_A", Descrption = "This is Service E", Price = 200.75m,Type="Sound",  }
 
                 }}
 
@@ -198,6 +197,8 @@
 
 
 
+    private Dictionary<string, string> gg = null;
+
 
     private async void changeLanguage(string language)
     {
@@ -232,16 +233,35 @@
         try
         {
 
+
+
             languageService.OnLanguageChanged += changeLanguage;
+
             changeLanguage("ar");
+
+            snackbar.Add(NameService, Severity.Warning);
+
             if (!string.IsNullOrWhiteSpace(NameService))
             {
                 _nameService = NameService;
+                var token = AppServerApi.getToken(NameService);
+                if (!string.IsNullOrWhiteSpace(token))
+                {
+                   
+                    gg = new Dictionary<string, string>()
+
+                {
+                    {"token",token},{"name_model",NameService},{"LinkCompletion","cc"}
+                };
+
+                }
             }
+
 
         }
         catch
         {
+
 
 
         }
@@ -261,7 +281,7 @@
 
 
 
- }
+ 
 
 
 

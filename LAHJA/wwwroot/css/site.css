@@ -1,4 +1,25 @@
 ﻿
+.cont-plan-RenderComponent{
+    position:fixed;
+    width:100%;
+    height:100%;
+    left:0
+
+
+}
+.plan-RenderComponent{
+    height:auto;
+    position:fixed;
+    width:80%;
+    left:0;
+    top:50px
+
+}
+.plan-RenderComponent-nav {
+    position: fixed;
+    width: 20%;
+    right: 0
+}
 /* Icons Section */
 .icon-md, .icon-lg, .icon-xl, .icon-xxl {
     display: flex;
@@ -886,6 +907,8 @@ a, .btn-link {
 .w60{
     width:59%;
 }
+
+
 .container_flex_wrap{
     display:flex;
     flex-wrap:wrap;
@@ -949,9 +972,10 @@ a, .btn-link {
 }
 
 @media only screen and (max-width:700px) {
-    .w40, .w46, .w60, .w41 {
+    .w40, .w46, .w60, .w41, .plan-RenderComponent {
         width: 100%;
     }
+    
     .Cont-speech {
         /*background:#eee*/
         padding: 0%
@@ -960,7 +984,7 @@ a, .btn-link {
         display: block !important;
     }
 
-    .display-computer-mode {
+    .display-computer-mode, .plan-RenderComponent-nav {
         display: none !important;
     }
 

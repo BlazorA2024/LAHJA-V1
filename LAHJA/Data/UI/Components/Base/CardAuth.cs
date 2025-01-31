@@ -45,6 +45,7 @@ namespace LAHJA.Data.UI.Components.Base
 
     public class DataBuildAuthBase
     {
+        public string? FirstName777 { get; set; } = "ASG";
         public string? FirstName { get; set; } = "ASG";
         public string? LastName { get; set; } = "USER";
         public int? Age { get; set; }

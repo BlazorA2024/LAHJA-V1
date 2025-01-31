@@ -21,12 +21,12 @@
     @if(DataBuild!=null)
     {
 
-    <div style="overflow:hidden;position:relative;height:100%" class=" m-0 relative flex flex-wrap justify-content-around align-items-start md:grid md:space-y-0 w-full md:grid-cols-12 space-y-4 md:gap-6 py-6">
-           
-  
-        <div class="nav-menu-continer-items-lg md:col-span-3 lg:col-span-3">
-            <MudContainer Class="w-100" >
-                <MudContainer Class="pt-1 border px-3 border-gray-100 rounded-xl bg-gradient-to-l overflow-hidden p-0" style="background-color:none!important">
+    <div style="" class="cont-plan-RenderComponent">
+
+
+        <div class="plan-RenderComponent-nav">
+            <MudContainer  Class="w-100" >
+                <MudContainer Class="pt-1 border px-3 border-gray-100 rounded-xl bg-gradient-to-l  p-0" style="background-color:none!important">
           
                     <UserAvaterCard Name="@data.Name" PhoneNumber="@data.Phone" ImageUrl="@data.ImageUrl" />
        
@@ -60,7 +60,7 @@
         </div>
 
         <div class="nav-menu-continer-items-sm w-100">
-            <div class="d-flex flex-row justify-content-start align-items-start w-100" style="justify-content:end !important;">
+            <div class="d-flex flex-row justify-content-start align-items-start w-100" style="position:fixed;z-index:200; justify-content:end !important;">
                 <MudIconButton Icon="@Icons.Material.Filled.Menu" OnClick="ToggleMenu" />
             </div>
         
@@ -94,8 +94,7 @@
             </MudMainContent>
         </div>
         @* Container *@
-        <MudContainer style="overflow:hidden;position:relative;" Class="md:col-span-9  sm:col-span-12 lg:col-span-9 mt-0  border-1">
-            <MudDrawerContainer Class="mud-height-full" >
+       
          
 
                 @*     <MudMenu Class="mr-2">
@@ -122,11 +121,10 @@
           
             </div> *@
 
-            
 
-        
-            <MudTabs>
-                <MudTabPanel>
+
+        <div class="plan-RenderComponent" >
+            
                     @if (!string.IsNullOrEmpty(Url))
                     {
                         @RenderComponentBasedOnUrl
@@ -135,10 +133,8 @@
                     {
                         <Dashboard />
                     }
-                </MudTabPanel>
-            </MudTabs>
-            </MudDrawerContainer>
-        </MudContainer>
+                </div>
+        
 
     </div>
 

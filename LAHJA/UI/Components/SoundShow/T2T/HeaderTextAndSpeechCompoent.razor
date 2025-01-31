@@ -58,8 +58,18 @@
             </MudCard>
         </MudItem>
 
-
-
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard>
+                <MudCardContent Class="d-flex align-center">
+                    <MudIcon Icon="@Icons.Custom.Uncategorized.Radioactive" Color="ColorCheck" Size="Size.Small" Class="mr-2" />
+                    <div>
+                        <MudText Typo="Typo.body2">@((!IsArabic ? "النمو الأسبوعي" : "Weekly Growth"))</MudText>
+                        <MudText Typo="Typo.body2">14.5%</MudText>
+                    </div>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+@* 
         <MudItem xs="12" sm="6" md="3">
             <MudCard>
                 <MudCardContent Class="d-flex align-center">
@@ -70,7 +80,7 @@
                     </div>
                 </MudCardContent>
             </MudCard>
-        </MudItem>
+        </MudItem> *@
     </MudGrid>
 </MudContainer>
 

@@ -15,7 +15,7 @@ namespace LAHJA.Data.UI.Components.Plan
         public string? PriceDescription { get; set; }
         public bool IsFixed { get; set; } = true;
 
-        public bool? IsPaid { get; set; } 
+        public bool? IsPaid { get; set; } = true; 
         public int Quantity { get; set; } = 1;
         public decimal TotalPrice => Quantity * Price;
 

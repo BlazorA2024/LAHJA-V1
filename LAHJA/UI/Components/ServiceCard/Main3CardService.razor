@@ -20,7 +20,7 @@
 
 <MudPaper Class="h-100 " style="padding:8%">
 
-    <MudList T="string" Dense="true" Class="d-flex flex-grow-1 py-0 mb-3  border ">
+    <MudList T="string" Dense="true" Class="d-flex flex-grow-1 py-0 mb-3   ">
         
         <MudIconButton class="text-light" Icon="@Icons.Material.Filled.Menu" OnClick="ToggleDrawer"
                        Color="@AppColors.BASE_COLOR_ENUM" />
@@ -150,7 +150,11 @@
                         <MudRadio Color="@AppColors.BASE_COLOR_ENUM"  Value="@property">@property</MudRadio>
                     }
                 </MudRadioGroup>
+
             </MudNavGroup>
+
+
+               
             <MudButton OnClick="ApplyFilter"
                        Variant="Variant.Outlined"
                          Color="@AppColors.BASE_COLOR_ENUM" Style="font-size:12px!important" FullWidth="true">@(TypeLanguage ? "Apply Filter" : " ÿ»Ìﬁ ")</MudButton>

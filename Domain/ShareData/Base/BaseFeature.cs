@@ -10,7 +10,7 @@
         public bool Active { get; set; } = false;
         public decimal? Price { get; set; } = 1;
         public bool IsFixed { get; set; } = true;
-        public bool? IsPaid { get; set; }
+        public bool? IsPaid { get; set; } = true;
 
     }
 

@@ -861,5 +861,16 @@ progress {
         transform: translateX(5px); /* تحريك السهم عند التمرير */
         color: #fff; /* تغيير لون السهم إلى أبيض عند التمرير */
     }
-    
+.right12w120 {
+    margin-right: -13% !important;
+    width: 120% !important;
+}
+
+/* إذا كانت الشاشة أقل من 768px (وضع الهاتف) */
+@media (max-width: 768px) {
+    .right12w120 {
+        margin-right: 0 !important; /* إعادة تعيين الهامش */
+        width: 100% !important; /* ضبط العرض ليتناسب مع الشاشة */
+    }
+}
 /*    /////Icon///*/

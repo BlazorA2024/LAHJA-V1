@@ -18,6 +18,8 @@
             <MudSpacer />
             <MudText Typo="Typo.h5" class="text-light" Align="Align.Center">@GetText("Studio")</MudText>
             <MudSpacer />
+            <MudIconButton Icon="@Icons.Material.Filled.Stream" OnClick="@(() =>ShowEX())" Color="@AppColors.BASE_COLOR_ENUM" />
+
        @*      <MudIconButton class="text-light" Icon="@Icons.Material.Filled.ChevronLeft" />
             <MudIconButton class="text-light" Icon="@Icons.Material.Filled.ChevronRight" /> *@
             @* <MudIconButton class="text-light" Icon="@Icons.Material.Filled.Settings" OnClick="ToggleSettingsMenu" /> *@
@@ -175,6 +177,11 @@
     private string? _errorTypeLahjaMsg = "";
     private string? _errorModelReleaseMsg = "";
 
+
+    void ShowEX()
+    {
+        
+    }
     public class CategoryData
     {
         public int Id { get; set; } = 0;

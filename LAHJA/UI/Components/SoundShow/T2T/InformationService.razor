@@ -6,10 +6,9 @@
 @inject IManageLanguageService _manageLanguageService
 <MudContainer MaxWidth="MaxWidth.Medium">
 
+  
 
-
-
-    <MudPaper Class="p-3">
+    <MudPaper Class="p-3 right12w120">
         <MudGrid Style="font-size:12px!important">
 
             <MudItem xs="12" md="7">
@@ -18,11 +17,11 @@
                 <MudDivider Class="mb-2" />
 
                 <MudText Typo="Typo.body2" Class="mt-3" Id="ModelSummary">@Param.ModelSummary.Title</MudText>
-                <MudText Typo="Typo.body2">@Param.ModelSummary.Description</MudText>
+                <MudText Typo="Typo.body2" Style="font-size: 0.74rem;">@Param.ModelSummary.Description</MudText>
 
-                <MudText Typo="Typo.body2" Class="mt-3">Inference Examples</MudText>
-                <MudPaper Class="p-3">
-                    <MudText Typo="Typo.body2">@Param.InferenceExamples.Description</MudText>
+                <MudText Typo="Typo.body2" Class="mt-3" Style="font-size:15px!important">Inference Examples</MudText>
+                <MudPaper Class="p-3" Style="width:80% !important;">
+                    <MudText Typo="Typo.body2" Style="font-size: 12px !important;">@Param.InferenceExamples.Description</MudText>
                 </MudPaper>
 
 

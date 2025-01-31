@@ -23,15 +23,31 @@ namespace Infrastructure.Mappings.Plans
 
 
             CreateMap<PlanResponseModel, PlanResponse>().ReverseMap();
+            CreateMap<PlanResponseModel, PlanView>().ReverseMap();
             CreateMap<PlanServicesResponse, PlanFeatureModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ServiceId))
             .ReverseMap();
 
-            CreateMap<PlanResponse,SubscriptionPlanModel> ()
+
+
+            CreateMap<PlanResponse, SubscriptionPlanModel> ()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.ProductName))
             .ForMember(dest => dest.TotalAmount, opt => opt.MapFrom(src => src.Amount))
             .ForMember(dest => dest.Features, opt => opt.MapFrom(src => src.PlanServices))
             .ReverseMap();
+
+           
+
+            CreateMap<PlanView, SubscriptionPlanModel>()
+            .ForMember(dest => dest.TotalAmount, opt => opt.MapFrom(src =>(decimal) src.Amount))
+            .ForMember(dest => dest.MonthlyPrice, opt => opt.MapFrom(src => (decimal)src.Amount))
+             //.ForMember(dest => dest.IsPaid, opt => opt.MapFrom(src => true))
+
+            .ForMember(dest => dest.Features, opt => opt.MapFrom(src => src.PlanFeatures))
+            .ReverseMap();
+
+            CreateMap<PlanFeatureView, PlanFeatureModel>();
+             //  .ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.Description == "نعم" && src.Description == "No"));
 
             CreateMap<PlanServicesResponse, SubscriptionPlanModel> ()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src=>src.ServiceId))
@@ -70,8 +86,8 @@ namespace Infrastructure.Mappings.Plans
                 .ReverseMap();      
             
             
-            CreateMap<ContainerPlansModel, PlanGrouping>()
-                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.Id))
+            CreateMap<ContainerPlansModel, PlanView>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ReverseMap();   
 
             //////////////////////////////////////////
@@ -92,16 +108,18 @@ namespace Infrastructure.Mappings.Plans
 
             /////////////////////////////////////////////////////////////////////////////
 
-            CreateMap<PlanCreateModel, PlanServicesCreate>().ReverseMap();
+            CreateMap<PlanCreateModel, PlanFeatureCreate>().ReverseMap();
             CreateMap<PlanServicesUpdateModel, PlanServicesUpdate>().ReverseMap();
 
 
 
-            CreateMap<PlansGroupModel, PlanGrouping>()
-                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.Id))
+            CreateMap<PlansGroupModel, PlanView>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 //.ForMember(dest => dest., opt => opt.MapFrom(src => src.))
                 //.ForMember(dest => dest.Services, opt => opt.Ignore())
                 .ReverseMap();
+
+
 
             //CreateMap<PlanModel, Plan>().ReverseMap();
             //CreateMap<PlansContainerModel, PlansContainer>().ReverseMap();
