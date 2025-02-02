@@ -25,6 +25,7 @@
 
 
         <div class="plan-RenderComponent-nav">
+
             <MudContainer  Class="w-100" >
                 <MudContainer Class="pt-1 border px-3 border-gray-100 rounded-xl bg-gradient-to-l  p-0" style="background-color:none!important">
           
@@ -59,13 +60,17 @@
            </MudContainer>
         </div>
 
-        <div class="nav-menu-continer-items-sm w-100">
+        <div class="nav-menu-continer-items-sm w-100" style="overflow: auto !important;">
             <div class="d-flex flex-row justify-content-start align-items-start w-100" style="position:fixed;z-index:200; justify-content:end !important;">
                 <MudIconButton Icon="@Icons.Material.Filled.Menu" OnClick="ToggleMenu" />
             </div>
-        
-            <MudMainContent Class="nav-profile-menu-continer-items-sm w-100 ">
+                <!-- المحتوى داخل هذا العنصر -->
+
+           
+             <MudMainContent Class="nav-profile-menu-continer-items-sm w-100 ">
+           
                 <MudDrawer @bind-Open="@_open" Fixed="true" Elevation="0" Class="h-100" Anchor="Anchor.End" Variant="@DrawerVariant.Temporary">
+
                     <MudNavMenu Class="font-size-nav-v2" >
 
                         <UserAvaterCard Name="@data.Name" PhoneNumber="@data.Phone" ImageUrl="@data.ImageUrl" />
@@ -92,7 +97,11 @@
             </MudContainer>
                 </MudDrawer>
             </MudMainContent>
-        </div>
+            </div>
+
+    
+
+
         @* Container *@
        
          
@@ -137,7 +146,6 @@
         
 
     </div>
-
 }
 else
 {

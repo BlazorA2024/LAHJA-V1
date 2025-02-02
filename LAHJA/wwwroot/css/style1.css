@@ -721,7 +721,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    background-color: #f3f4f6;
+    c-color: #f3f4f6;
     padding: 20px;
     border-radius: 10px;
     width: 350px;

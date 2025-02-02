@@ -1,0 +1,199 @@
+﻿
+<style>
+    .custom-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px auto;
+    }
+
+    .custom {
+        /*         justify-content: flex-end; /* محاذاة العناصر لليمين */
+        */ /* /*              margin-top: -6%;}
+     */ */ display: flex;
+        /*    flex-wrap: wrap; */
+        gap: 10px;
+    }
+
+    .Clearable {
+        height: 175%;
+        margin-top: -18%;
+    }
+</style>
+
+<div class="p-5">
+    <div class="p-1 RCardP">
+<MudAlert Severity="Severity.Normal" Variant="Variant.Filled">
+    @localization[languageIndex]["ReactorType"]
+    <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" />
+    <MudChip T="string" Icon="@Icons.Custom.Uncategorized.Radioactive" Label="true" Color="Color.Primary" style="background:#fff; color:#000000;" OnClose="CloseChip">@localization[languageIndex]["NewTweets"]</MudChip>
+</MudAlert>
+
+
+    
+    <MudText class="custom-container ">
+            @foreach (var data in dataList)
+            {
+                <MudTextField T="string" class="Clearable" ReadOnly Text="@data.name" Label="@localization[languageIndex]["ClearableOutlined"]" Variant="Variant.Outlined" />
+            }
+        </MudText>
+        <div class="custom-container">
+            @foreach (var i in Enumerable.Range(1, 5))
+            {
+                <MudChip T="string" OnClick="OnChipClicked" Icon="@Icons.Material.Filled.AddCircle" Color="Color.Default">@localization[languageIndex]["Clicked"]</MudChip>
+            }
+            <div class="d-flex">
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
+            </div>
+        </div>
+    </div>
+        <MudSimpleTable Elevation="0"  Hover="true" Dense="true"  FixedHeader="@fixedheader" Style="@(fixedheader ? "height:300px;" : "")">
+            <thead>
+                <tr>
+                    
+                    <th>@localization[languageIndex]["ID"]</th>
+                    <th>@localization[languageIndex]["Name"]</th>
+                    <th>@localization[languageIndex]["Description"]</th>
+                    <th>@localization[languageIndex]["RAM"]</th>
+                    <th>@localization[languageIndex]["CPU Cores"]</th>
+                    <th>@localization[languageIndex]["Disk Space"]</th>
+                    <th>@localization[languageIndex]["GPU"]</th>
+                    <th>@localization[languageIndex]["Global"]</th>
+                    <th>@localization[languageIndex]["Bandwidth"]</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in dataList)
+                {
+                    <tr>
+                        <td>@row.id</td>
+                        <td>@row.name</td>
+                        <td>@row.description</td>
+                        <td>@row.ram</td>
+                        <td>@row.cpuCores</td>
+                        <td>@row.diskSpace</td>
+                        <td>@(row.isGpu ? "Yes" : "No")</td>
+                        <td>@(row.isGlobal ? "Yes" : "No")</td>
+                        <td>@row.bandwidth</td>
+                    </tr>
+                }
+           
+            </tbody>
+        </MudSimpleTable>
+@*         <MudSwitch @bind-Value="fixedheader" Color="Color.Primary">@localization[languageIndex]["FixedHeader"]</MudSwitch>
+ *@  
+
+</div>
+
+
+
+@code {
+    public class DataItem
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public int ram { get; set; }
+        public int cpuCores { get; set; }
+        public int diskSpace { get; set; }
+        public bool isGpu { get; set; }
+        public bool isGlobal { get; set; }
+        public int bandwidth { get; set; }
+    }
+    // بيانات افتراضية مشابهة لبيانات JSON التي قدمتها
+    private List<DataItem> dataList = new List<DataItem>
+    {
+        new DataItem
+        {
+            id = "1", name = "Reactor 1", description = "A powerful reactor", ram = 16, cpuCores = 8, diskSpace = 512, isGpu = true, isGlobal = true, bandwidth = 100
+        },
+        new DataItem
+        {
+            id = "2", name = "Reactor 2", description = "A more advanced reactor", ram = 32, cpuCores = 16, diskSpace = 1024, isGpu = false, isGlobal = true, bandwidth = 200
+        }
+    };
+
+    private bool fixedheader = true;
+    private string _string = string.Empty;
+
+    // فهرس اللغة
+    private int languageIndex = 0; // 0 لـ اللغة الإنجليزية و 1 لـ اللغة العربية
+
+    // بيانات الترجمة
+    private Dictionary<int, Dictionary<string, string>> localization = new Dictionary<int, Dictionary<string, string>>
+    {
+        { 0, new Dictionary<string, string>  // اللغة الإنجليزية
+            {
+                {"TabOne", "Tab One"},
+                {"ReactorType", "Reactor Type"},
+                {"NewTweets", "New Tweets"},
+                {"ClearableOutlined", "Clearable Outlined"},
+                {"Clicked", "Clicked"},
+                {"DenseSuccess", "Dense Success"},
+                {"FixedHeader", "Fixed Header"},
+                {"TabTwo", "Tab Two"},
+                {"TabThree", "Tab Three"},
+                {"TabDisabled", "Tab Disabled"},
+                {"ContentThree", "Content for Tab Three"},
+                {"ContentDisabled", "This tab is disabled"},
+                {"ID", "ID"},
+                {"Name", "Name"},
+                {"Description", "Description"},
+                {"RAM", "RAM"},
+                {"CPU Cores", "CPU Cores"},
+                {"Disk Space", "Disk Space"},
+                {"GPU", "GPU"},
+                {"Global", "Global"},
+                {"Bandwidth", "Bandwidth"},
+                {"English", "English"},
+                {"Arabic", "Arabic"},
+                {"SelectLanguage", "Select Language"}
+            }
+        },
+        { 1, new Dictionary<string, string>  // اللغة العربية
+            {
+                {"TabOne", "التبويب الأول"},
+                {"ReactorType", "نوع المفاعل"},
+                {"NewTweets", "تغريدات جديدة"},
+                {"ClearableOutlined", "قابل للتصفية"},
+                {"Clicked", "تم الضغط"},
+                {"DenseSuccess", "نجاح مكثف"},
+                {"FixedHeader", "الرأس الثابت"},
+                {"TabTwo", "التبويب الثاني"},
+                {"TabThree", "التبويب الثالث"},
+                {"TabDisabled", "التبويب معطل"},
+                {"ContentThree", "محتوى التبويب الثالث"},
+                {"ContentDisabled", "هذا التبويب معطل"},
+                {"ID", "المعرف"},
+                {"Name", "الاسم"},
+                {"Description", "الوصف"},
+                {"RAM", "الذاكرة العشوائية"},
+                {"CPU Cores", "أنوية المعالج"},
+                {"Disk Space", "مساحة القرص"},
+                {"GPU", "وحدة معالجة الرسوميات"},
+                {"Global", "عالمي"},
+                {"Bandwidth", "عرض النطاق الترددي"},
+                {"English", "الإنجليزية"},
+                {"Arabic", "العربية"},
+                {"SelectLanguage", "اختر اللغة"}
+            }
+        }
+    };
+
+    // دالة لغلق الـ Chip
+    private void CloseChip()
+    {
+        // منطق لغلق الـ Chip
+    }
+
+    // دالة للتعامل مع الضغط على الـ Chip
+    private void OnChipClicked()
+    {
+        // منطق عند الضغط على الـ Chip
+    }
+}
+    // تعريف كائن البيانات
+
