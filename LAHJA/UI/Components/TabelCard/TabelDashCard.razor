@@ -48,7 +48,7 @@
     }
     else
     {
-        <PlanCreateStart />
+        <PlanCreateStart Params="PlanCreateStartData" OnClick="ActionTabels.ChipClicked" />
     }
 
 </div>
@@ -61,7 +61,8 @@
     // بيانات افتراضية مشابهة لبيانات JSON التي قدمتها
     [Parameter] public List<CardStateCount<string>>? StateCounts { set; get; }
 
-
+    [Parameter]
+    public PlanCreateStartData PlanCreateStartData { set; get; } = new();
     [Parameter] public GroupActionTabels? ActionTabels { set; get; }
 
 
@@ -73,66 +74,7 @@
     private int languageIndex = 0; // 0 لـ اللغة الإنجليزية و 1 لـ اللغة العربية
 
     // بيانات الترجمة
-    private Dictionary<int, Dictionary<string, string>> localization = new Dictionary<int, Dictionary<string, string>>
-    {
-        { 0, new Dictionary<string, string>  // اللغة الإنجليزية
-            {
-                {"TabOne", "Tab One"},
-                {"ReactorType", "Reactor Type"},
-                {"NewTweets", "New Tweets"},
-                {"ClearableOutlined", "Clearable Outlined"},
-                {"Clicked", "Clicked"},
-                {"DenseSuccess", "Dense Success"},
-                {"FixedHeader", "Fixed Header"},
-                {"TabTwo", "Tab Two"},
-                {"TabThree", "Tab Three"},
-                {"TabDisabled", "Tab Disabled"},
-                {"ContentThree", "Content for Tab Three"},
-                {"ContentDisabled", "This tab is disabled"},
-                {"ID", "ID"},
-                {"Name", "Name"},
-                {"Description", "Description"},
-                {"RAM", "RAM"},
-                {"CPU Cores", "CPU Cores"},
-                {"Disk Space", "Disk Space"},
-                {"GPU", "GPU"},
-                {"Global", "Global"},
-                {"Bandwidth", "Bandwidth"},
-                {"English", "English"},
-                {"Arabic", "Arabic"},
-                {"SelectLanguage", "Select Language"}
-            }
-        },
-        { 1, new Dictionary<string, string>  // اللغة العربية
-            {
-                {"TabOne", "التبويب الأول"},
-                {"ReactorType", "نوع المفاعل"},
-                {"NewTweets", "تغريدات جديدة"},
-                {"ClearableOutlined", "قابل للتصفية"},
-                {"Clicked", "تم الضغط"},
-                {"DenseSuccess", "نجاح مكثف"},
-                {"FixedHeader", "الرأس الثابت"},
-                {"TabTwo", "التبويب الثاني"},
-                {"TabThree", "التبويب الثالث"},
-                {"TabDisabled", "التبويب معطل"},
-                {"ContentThree", "محتوى التبويب الثالث"},
-                {"ContentDisabled", "هذا التبويب معطل"},
-                {"ID", "المعرف"},
-                {"Name", "الاسم"},
-                {"Description", "الوصف"},
-                {"RAM", "الذاكرة العشوائية"},
-                {"CPU Cores", "أنوية المعالج"},
-                {"Disk Space", "مساحة القرص"},
-                {"GPU", "وحدة معالجة الرسوميات"},
-                {"Global", "عالمي"},
-                {"Bandwidth", "عرض النطاق الترددي"},
-                {"English", "الإنجليزية"},
-                {"Arabic", "العربية"},
-                {"SelectLanguage", "اختر اللغة"}
-            }
-        }
-    };
-
+  
   
     protected override void OnInitialized()
     {
