@@ -11,11 +11,30 @@
 
 <TabelDashCard T="DataBuildUserSubscriptionInfo" DataAndEventBuildTabel="dataAndEvent" 
                                   StateCounts="cardStates"
-                                  ActionTabels="groupAction" />
+                                  ActionTabels="groupAction"
+                                  BarTabel="TranslationsLST" />
+                                  
 
 @code{
 
 
+    private static readonly Dictionary<string, Dictionary<string, string>> TranslationsLST = new()
+        {
+            ["en"] = new()
+            {
+                ["Text1"] = "Upgrate your Subscription",
+                ["Text2"] = "AI لهجة",
+                ["Description"] = "LAHJA platform provides a smart way to communicate with AI in your own dialect.",
+                ["ButtonLink"] = "Create Space"
+            },
+            ["ar"] = new()
+            {
+                ["Text1"] = "حدث  اشتراك ",
+                ["Text2"] = "لهجة AI",
+                ["Description"] = "توفر  منصة لهجة  طريقة ذكية للتواصل مع الذكاء الاصطناعي بلهجتك الخاصة.",
+                ["ButtonLink"] = "تحديث الاشتراك  "
+            }
+        };
 
 
     DataAndEventBuildTabelCard<DataBuildUserSubscriptionInfo> dataAndEvent = null;

@@ -28,16 +28,19 @@
                             @Params["ButtonLink"]
                         </MudButton>
                     </MudItem>
-
+                @if (IsShowImage)
+                {
                     <!-- Button -->
                     <MudItem xs="12" lg="6" Class="d-none d-lg-flex justify-end align-start">
                         <img src="assets/images/chatbot-cta.png" style="width: 46%; margin-left: 50%;" alt="">
                     </MudItem>
+                }
                 </MudGrid>
-
-                <div class="top-0 mt-n6">
-                    <img src="assets/images/elements/grad-shape/blur-decoration.svg" class="blur-8 opacity-3" alt="Grad shape">
+              
+                    <div class="top-0 mt-n6">
+                        <img src="assets/images/elements/grad-shape/blur-decoration.svg" class="blur-8 opacity-3" alt="Grad shape">
                 </div>
+                
             </MudPaper>
         }
     </MudContainer>
@@ -49,25 +52,10 @@
 
 
     [Parameter] public Dictionary<string, string> Params { get; set; }
+    [Parameter] public Dictionary<string, Dictionary<string, string>> Translations { get; set; }
 
-    private static readonly Dictionary<string, Dictionary<string, string>> Translations = new()
-        {
-            ["en"] = new()
-            {
-                ["Text1"] = "Try the power",
-                ["Text2"] = "AI Accent",
-                ["Description"] = "LAHJA platform provides a smart way to communicate with AI in your own dialect.",
-                ["ButtonLink"] = "Start your free trial"
-            },
-            ["ar"] = new()
-            {
-                ["Text1"] = "جرب قوة",
-                ["Text2"] = "لهجة AI",
-                ["Description"] = "توفر  منصة لهجة  طريقة ذكية للتواصل مع الذكاء الاصطناعي بلهجتك الخاصة.",
-                ["ButtonLink"] = "ابداء الاصدار التجريبي المجاني"
-            }
-        };
-
+    [Parameter] public bool IsShowImage { set; get; } = true;
+   
 
 
     protected override async void OnAfterRender(bool firstRender)

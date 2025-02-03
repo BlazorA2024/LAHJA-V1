@@ -1,0 +1,24 @@
+﻿
+
+
+
+@code {
+    [Parameter] public object State { set; get; }
+    private Color color = Color.Default;
+
+    protected override void OnInitialized()
+    {
+        var s = State.ToString();
+        if (s == "نشط" || s == "Active" || s == "True")
+        {
+            color = Color.Success;
+        }
+        else
+        {
+            color = Color.Error;
+
+        }
+        StateHasChanged();
+
+    }
+}

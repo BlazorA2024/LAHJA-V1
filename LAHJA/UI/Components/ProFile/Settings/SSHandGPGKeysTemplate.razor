@@ -7,7 +7,8 @@
 
 <TabelDashCard T="DataBuildSpace" DataAndEventBuildTabel="dataAndEvent" 
                                   StateCounts="cardStates"
-                                  ActionTabels="groupAction" />
+                                  ActionTabels="groupAction"
+                                  BarTabel="TranslationsLST" />
 
 @code{
 
@@ -68,65 +69,6 @@
     }
 
 
-    private Dictionary<int, Dictionary<string, string>> localization = new Dictionary<int, Dictionary<string, string>>
-    {
-        { 0, new Dictionary<string, string>  // اللغة الإنجليزية
-            {
-                {"TabOne", "Tab One"},
-                {"ReactorType", "Reactor Type"},
-                {"NewTweets", "New Tweets"},
-                {"ClearableOutlined", "Clearable Outlined"},
-                {"Clicked", "Clicked"},
-                {"DenseSuccess", "Dense Success"},
-                {"FixedHeader", "Fixed Header"},
-                {"TabTwo", "Tab Two"},
-                {"TabThree", "Tab Three"},
-                {"TabDisabled", "Tab Disabled"},
-                {"ContentThree", "Content for Tab Three"},
-                {"ContentDisabled", "This tab is disabled"},
-                {"ID", "ID"},
-                {"Name", "Name"},
-                {"Description", "Description"},
-                {"RAM", "RAM"},
-                {"CPU Cores", "CPU Cores"},
-                {"Disk Space", "Disk Space"},
-                {"GPU", "GPU"},
-                {"Global", "Global"},
-                {"Bandwidth", "Bandwidth"},
-                {"English", "English"},
-                {"Arabic", "Arabic"},
-                {"SelectLanguage", "Select Language"}
-            }
-        },
-        { 1, new Dictionary<string, string>  // اللغة العربية
-            {
-                {"TabOne", "التبويب الأول"},
-                {"ReactorType", "نوع المفاعل"},
-                {"NewTweets", "تغريدات جديدة"},
-                {"ClearableOutlined", "قابل للتصفية"},
-                {"Clicked", "تم الضغط"},
-                {"DenseSuccess", "نجاح مكثف"},
-                {"FixedHeader", "الرأس الثابت"},
-                {"TabTwo", "التبويب الثاني"},
-                {"TabThree", "التبويب الثالث"},
-                {"TabDisabled", "التبويب معطل"},
-                {"ContentThree", "محتوى التبويب الثالث"},
-                {"ContentDisabled", "هذا التبويب معطل"},
-                {"ID", "المعرف"},
-                {"Name", "الاسم"},
-                {"Description", "الوصف"},
-                {"RAM", "الذاكرة العشوائية"},
-                {"CPU Cores", "أنوية المعالج"},
-                {"Disk Space", "مساحة القرص"},
-                {"GPU", "وحدة معالجة الرسوميات"},
-                {"Global", "عالمي"},
-                {"Bandwidth", "عرض النطاق الترددي"},
-                {"English", "الإنجليزية"},
-                {"Arabic", "العربية"},
-                {"SelectLanguage", "اختر اللغة"}
-            }
-        }
-    };
     List<CardStateCount<string>>? cardStates = null;
 
     GroupActionTabels groupAction = new GroupActionTabels();
@@ -167,6 +109,23 @@
         DialogService.Show<DialogContent>("", parameters, options);
     }
 
+    private static readonly Dictionary<string, Dictionary<string, string>> TranslationsLST = new()
+        {
+            ["en"] = new()
+            {
+                ["Text1"] = "create your spaces",
+                ["Text2"] = "AI لهجة",
+                ["Description"] = "LAHJA platform provides a smart way to communicate with AI in your own dialect.",
+                ["ButtonLink"] = "Create Space"
+            },
+            ["ar"] = new()
+            {
+                ["Text1"] = "انشى مساحاتك ",
+                ["Text2"] = "لهجة AI",
+                ["Description"] = "توفر  منصة لهجة  طريقة ذكية للتواصل مع الذكاء الاصطناعي بلهجتك الخاصة.",
+                ["ButtonLink"] = "انشاء مساحة "
+            }
+        };
 
 
     Dictionary<string, string[]> ColomsTrans = new Dictionary<string, string[]>

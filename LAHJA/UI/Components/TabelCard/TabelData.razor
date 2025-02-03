@@ -9,7 +9,9 @@
           OnSortChanged="HandleSortChanged"
           OnPageChanged="HandlePageChanged"
           MultiSelection="@MultiSelection"
-          RowStyle="RowStyle">
+          RowStyle="RowStyle"
+          Elevation="0"
+          >
 
     <HeaderContent>
        
@@ -32,7 +34,20 @@
      
             @foreach (var column in Columns)
             {
-                <MudTd>@GetPropertyValue(context, column)</MudTd>
+            if (column != "Status")
+            {
+                <MudTd>@GetPropertyValue(context, column)
+                  
+                     
+                </MudTd>
+            }
+            else
+            {
+
+                <StateCell State="@GetPropertyValue(context, column)" />
+              
+            }
+
             }
     
     </RowTemplate>
@@ -45,7 +60,7 @@
     [Parameter] public bool MultiSelection { get; set; } = false;
     [Parameter] public EventBuildTabelCard<T>? Events { get; set; }
 
-    
+
 
     [Parameter] public List<string> LabelColumns { get; set; } = new();
     private string SearchText { get; set; } = "";
@@ -62,9 +77,15 @@
     private object GetPropertyValue(T item, string propertyName)
     {
         var prop = typeof(T).GetProperty(propertyName);
+
         return prop?.GetValue(item) ?? "-";
     }
+    private bool isboolValue(T item, string propertyName)
+    {
+        var prop = typeof(T).GetProperty(propertyName);
 
+        return prop?.GetType() == typeof(bool);
+    }
     private Task HandleRowClick(TableRowClickEventArgs<T> args)
     {    
         return Events.OnRowClicked.InvokeAsync(args.Item);

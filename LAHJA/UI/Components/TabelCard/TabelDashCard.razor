@@ -1,4 +1,5 @@
 ﻿@using LAHJA.Data.UI.Components
+@using LAHJA.UI.Components.Icon
 @using LAHJA.UI.Components.TabelCard
 @typeparam T
 <style>
@@ -26,12 +27,8 @@
 
 <div class="p-5">
     <div class="p-1 RCardP">
-    <MudAlert Severity="Severity.Normal" Variant="Variant.Filled">
-        @localization[languageIndex]["ReactorType"]
-        <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" />
-        <MudChip T="string" Icon="@Icons.Custom.Uncategorized.Radioactive" Label="true" Color="Color.Primary" style="background:#fff; color:#000000;" OnClose="CloseChip">@localization[languageIndex]["NewTweets"]</MudChip>
-    </MudAlert>
 
+        <CardShowExperience IsShowImage="false" Translations="BarTabel" />
 
      <StateCountCard  Params="StateCounts" />
 
@@ -65,6 +62,9 @@
     public PlanCreateStartData PlanCreateStartData { set; get; } = new();
     [Parameter] public GroupActionTabels? ActionTabels { set; get; }
 
+    [Parameter]
+    public Dictionary<string, Dictionary<string, string>> BarTabel { set; get; } = new();
+
 
 
     private bool fixedheader = true;
@@ -85,13 +85,8 @@
 
 
 
-    // دالة لغلق الـ Chip
-    private void CloseChip()
-    {
-        // منطق لغلق الـ Chip
-    }
 
    
 }
-    // تعريف كائن البيانات
+   
 
