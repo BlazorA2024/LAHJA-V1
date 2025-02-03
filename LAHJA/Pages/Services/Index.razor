@@ -5,10 +5,14 @@
 @using LAHJA.UI.Templates.CategoriesPlan
 @using LAHJA.UI.Templates.Plans
 @using LAHJA.UI.Templates.Services
+@using LAHJA.UI.Components.TabelCard
 
 
+<TemplateServices />
+<TabelAbdDashCard />
+
+@* 
  <TemplateServices   />
- @* <TemplateCarousel  /> *@
 
 @using Microsoft.AspNetCore.Components
 
@@ -18,8 +22,9 @@
 
    <ContenerChatComponent />
 
+ *@
+@* <TemplateCarousel  /> *@
 
- 
  @* <MudDropContainer T="DropItem" Items="_items" ItemsSelector="@((item, dropzone) => item.Identifier == dropzone)" ItemDropped="ItemUpdated">
      <ChildContent>
          <MudPaper MinHeight="500px" Class="d-flex flex-1">

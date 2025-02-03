@@ -201,6 +201,8 @@ else
             {
                 ["Statistics"] = "Statistics",
                 ["Profile"] = "Profile",
+                ["Spaces"] = "Spaces",
+
                 ["Account"] = "Account",
                 ["Subscriptions"] = "Subscriptions",
                 ["Authentication"] = "Authentication",
@@ -213,7 +215,7 @@ else
                 ["Notifications"] = "Notifications",
                 ["Local Apps and"] = "Local Apps and",
                 ["Gated Repositories"] = "Gated Repositories",
-                ["Spaces"] = "Spaces",
+                
                 ["Connected Apps"] = "Connected Apps",
                 ["Theme"] = "Theme"
             },
@@ -221,6 +223,8 @@ else
             {
                 ["Statistics"] = "الاحصائيات",
                 ["Profile"] = "الملف الشخصي",
+                ["Spaces"] = "المساحات",
+
                 ["Account"] = "الحساب",
                 ["Subscriptions"] = "الاشتراكات",
                 ["Authentication"] = "التحقق",
@@ -233,7 +237,7 @@ else
                 ["Notifications"] = "الإشعارات",
                 ["Local Apps and"] = "التطبيقات المحلية و",
                 ["Gated Repositories"] = "المستودعات المحمية",
-                ["Spaces"] = "المساحات",
+             
                 ["Connected Apps"] = "التطبيقات المتصلة",
                 ["Theme"] = "السمة"
             }
@@ -245,9 +249,8 @@ else
         NavItems=  new()
         {
             new NavItem { Label = GetLabel("Statistics"),Icon=@Icons.Material.Filled.QueryStats, Url = "settings/Statistics" },
-            new NavItem { Label = GetLabel("Profile"),Icon=@Icons.Material.Filled.Person, Url = "settings/profile" },
-            new NavItem { Label = GetLabel("Account"),Icon=@Icons.Material.Filled.ManageAccounts, Url = "settings/Account" },
-            new NavItem { Label = GetLabel("Subscriptions"),Icon=@Icons.Material.Filled.Subscriptions, Url = "settings/SubscriptionTemplate" },
+             new NavItem { Label = GetLabel("Subscriptions"),Icon=@Icons.Material.Filled.Subscriptions, Url = "settings/SubscriptionTemplate" },
+             new NavItem { Label = GetLabel("Spaces"), Url = "settings/keys" },
             new NavItem { Label = GetLabel("Billing"), Url = "settings/billing" },
             new NavItem { Label = GetLabel("Authentication"), Url = "settings/authentication" },
             new NavItem { Label = GetLabel("Organizations"), Url = "settings/organizations" },
@@ -258,7 +261,9 @@ else
             new NavItem { Label = GetLabel("Notifications"),Icon=@Icons.Material.Filled.Notifications, Url = "settings/notifications" },
             new NavItem { Label = GetLabel("Local Apps and"), Url = "settings/local-apps", Badge = "NEW" },
             new NavItem { Label = GetLabel("Gated Repositories"), Url = "settings/gated-repos" },
-            new NavItem { Label = GetLabel("Spaces"), Url = "settings/content-preferences" },
+           new NavItem { Label = GetLabel("Profile"),Icon=@Icons.Material.Filled.Person, Url = "settings/profile" },
+            new NavItem { Label = GetLabel("Account"),Icon=@Icons.Material.Filled.ManageAccounts, Url = "settings/Account" },
+
             new NavItem { Label = GetLabel("Connected Apps"), Url = "settings/applications" },
             new NavItem { Label = GetLabel("Theme"), Url = "settings/theme" }
         };
@@ -291,7 +296,7 @@ else
                 { "Statistics", typeof(Dashboard) },
                 { "profile", typeof(ProfileForm) },
                 { "Account", typeof(AccountTemplate) },
-                { "SubscriptionTemplate", typeof(SubscriptionTemplate) },
+                { "SubscriptionTemplate", typeof(Subscription) },
                 { "billing", typeof(BillingSection) },
                 { "authentication", typeof(AuthenticationTemplate) },
                 { "organizations", typeof(OrganizationsTemplate) },

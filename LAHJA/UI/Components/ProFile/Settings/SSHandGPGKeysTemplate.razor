@@ -1,25 +1,194 @@
-﻿@using LAHJA.UI.Components.Index
+﻿@using LAHJA.Data.UI.Components
+@using LAHJA.UI.Components.ServiceCard
+@using LAHJA.UI.Components.TabelCard
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
 
-<TabelDashCard />
+
+<TabelDashCard T="DataBuildSpace" DataAndEventBuildTabel="dataAndEvent" 
+                                  StateCounts="cardStates"
+                                  ActionTabels="groupAction" />
+
+@code{
 
 
-<section class="pt-6 border-gray-100 md:col-span-8 lg:col-span-9 xl:col-span-9 md:px-4 py-4">
-    <div class="mb-6">
-        <div class="flex justify-between">
-            <h3 class="flex flex-row items-center text-xl font-bold">
-                SSH &amp; GPG Keys
-            </h3>
-        </div>
-    </div>
-    <div class="space-y-8">
-        <div>
-            <a href="settings/keys/addtype=ssh" class="btn-1 mb-4"><div>Add SSH Key</div></a>
-            <div class="overview-card-wrapper max-w-lg p-3">No SSH key added to your account yet</div>
-        </div>
-        <div>
-            <a href="settings/keys/addtype=pgp" class="btn-1 mb-4">
-                <div>Add GPG Key</div></a>
-            <div class="overview-card-wrapper max-w-lg p-3">No GPG key added to your account yet</div>
-        </div>
-    </div>
-</section>
+    DataAndEventBuildTabelCard<DataBuildSpace> dataAndEvent = null;
+    private string lg = "ar";
+    protected override void OnInitialized()
+    {
+
+
+
+        dataAndEvent = new()
+            {
+                DataBuild = new(),
+                LabelColumns = ColomsTrans[lg].ToList(),
+
+                Events = new()
+            };
+
+        cardStates = new()
+        {
+
+            new()
+            {
+                Value="6",
+                Label="Active"
+
+            },
+
+             new()
+            {
+                 Value="1",
+                Label="UnActive"
+            }
+            ,
+
+
+        };
+        groupAction.Actions = new()
+        {
+            new()
+            {
+                Icon=@Icons.Material.Filled.AddCircle
+                ,
+                Tag="create"
+                ,
+                Name="انشاء"
+            },
+            new()
+            {
+                Icon=@Icons.Material.Filled.Delete
+                ,
+                IsMudChip=false,
+                Tag="delete"
+            }
+        };
+        groupAction.ChipClicked += OnChipClicked;
+    }
+
+
+    private Dictionary<int, Dictionary<string, string>> localization = new Dictionary<int, Dictionary<string, string>>
+    {
+        { 0, new Dictionary<string, string>  // اللغة الإنجليزية
+            {
+                {"TabOne", "Tab One"},
+                {"ReactorType", "Reactor Type"},
+                {"NewTweets", "New Tweets"},
+                {"ClearableOutlined", "Clearable Outlined"},
+                {"Clicked", "Clicked"},
+                {"DenseSuccess", "Dense Success"},
+                {"FixedHeader", "Fixed Header"},
+                {"TabTwo", "Tab Two"},
+                {"TabThree", "Tab Three"},
+                {"TabDisabled", "Tab Disabled"},
+                {"ContentThree", "Content for Tab Three"},
+                {"ContentDisabled", "This tab is disabled"},
+                {"ID", "ID"},
+                {"Name", "Name"},
+                {"Description", "Description"},
+                {"RAM", "RAM"},
+                {"CPU Cores", "CPU Cores"},
+                {"Disk Space", "Disk Space"},
+                {"GPU", "GPU"},
+                {"Global", "Global"},
+                {"Bandwidth", "Bandwidth"},
+                {"English", "English"},
+                {"Arabic", "Arabic"},
+                {"SelectLanguage", "Select Language"}
+            }
+        },
+        { 1, new Dictionary<string, string>  // اللغة العربية
+            {
+                {"TabOne", "التبويب الأول"},
+                {"ReactorType", "نوع المفاعل"},
+                {"NewTweets", "تغريدات جديدة"},
+                {"ClearableOutlined", "قابل للتصفية"},
+                {"Clicked", "تم الضغط"},
+                {"DenseSuccess", "نجاح مكثف"},
+                {"FixedHeader", "الرأس الثابت"},
+                {"TabTwo", "التبويب الثاني"},
+                {"TabThree", "التبويب الثالث"},
+                {"TabDisabled", "التبويب معطل"},
+                {"ContentThree", "محتوى التبويب الثالث"},
+                {"ContentDisabled", "هذا التبويب معطل"},
+                {"ID", "المعرف"},
+                {"Name", "الاسم"},
+                {"Description", "الوصف"},
+                {"RAM", "الذاكرة العشوائية"},
+                {"CPU Cores", "أنوية المعالج"},
+                {"Disk Space", "مساحة القرص"},
+                {"GPU", "وحدة معالجة الرسوميات"},
+                {"Global", "عالمي"},
+                {"Bandwidth", "عرض النطاق الترددي"},
+                {"English", "الإنجليزية"},
+                {"Arabic", "العربية"},
+                {"SelectLanguage", "اختر اللغة"}
+            }
+        }
+    };
+    List<CardStateCount<string>>? cardStates = null;
+
+    GroupActionTabels groupAction = new GroupActionTabels();
+
+    private Task OnChipClicked(CardActionTabel action)
+    {
+        if (action.Tag == "delete")
+        {
+            Snackbar.Add("fgffg", Severity.Error);
+
+        }
+        else if(action.Tag=="create")
+        {
+            OpenDialog();
+        }
+
+        return Task.CompletedTask;
+
+    }
+
+    private void OpenDialog()
+    {
+
+
+        
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+
+        var parameters = new DialogParameters<DialogContent>
+        {
+
+            { x =>x.DataBuild1,null },
+
+            {x => x.DataBuildCheck,null},
+            {x=>x.SrcIframe,"https://lahja-core.onrender.com/createspace"}
+        };
+
+        DialogService.Show<DialogContent>("", parameters, options);
+    }
+
+
+
+    Dictionary<string, string[]> ColomsTrans = new Dictionary<string, string[]>
+        {
+            { "en", new string[] { "ID", "Name", "Description", "RAM", "CPU Cores", "Disk Space", "GPU", "Global", "Bandwidth" } },
+            { "ar", new string[] { "المعرف", "الاسم", "الوصف", "الذاكرة العشوائية", "أنوية المعالج", "مساحة القرص", "وحدة معالجة الرسوميات", "عالمي", "عرض النطاق الترددي" } }
+        };
+    private List<DataBuildSpace> dataList = new List<DataBuildSpace>
+    {
+    new DataBuildSpace
+    {
+    Id = "1", Name = "Reactor 1", Description = "A powerful reactor", Ram = 16, CpuCores = 8, DiskSpace = 512, IsGpu = true, IsGlobal = true, Bandwidth = 100
+    },
+    new DataBuildSpace
+    {
+             Id = "2", Name = "Reactor 2", Description = "A powerful reactor", Ram = 16, CpuCores = 8, DiskSpace = 512, IsGpu = true, IsGlobal = true, Bandwidth = 100
+    },
+
+    };
+
+
+
+
+
+}

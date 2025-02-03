@@ -1,106 +1,207 @@
 ﻿
 @using Domain.ShareData
-@using LAHJA.Data.UI.Components.Plan
-@using LAHJA.Data.UI.Components.Subscription
-@using LAHJA.Helpers.Services
-@using LAHJA.UI.Components.Plan
+@using LAHJA.Data.UI.Components
 
-@inject IManageLanguageService _manageLanguageService
-@inject LAHJA.Data.UI.Templates.Subscription.TemplateSubscription Template
-@inject NavigationManager Navigation
-
-
-@* @if (Template != null)
-{
-	<Subscription DataBuild="buildData" />
-} *@
-
-<main class="flex flex-1 flex-col">
-@* 	<ResendConfirmationemail /> *@
-
-	<div class="container relative max-w-full flex-1   md:pb-12 md:pt-8  ">
+@using LAHJA.UI.Components.ServiceCard
+@using LAHJA.UI.Components.TabelCard
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@inject NavigationManager Navigation;
 
 
-		<MudText Typo="Typo.h3" Align="Align.Center" Class="text-center">@GetTranslation("SubscribeToPro")</MudText>
-			@if(_dataBuild != null && _dataBuild.Count()>0){
-
-				@foreach (var item in _dataBuild)
-				{
-					<MudContainer  Class="p-3">
-					<TemplatePlan Params="@item.SubscriptionPlan" SubmitUpgrade="OnSubmitUpgradePlan" IsUpgrade="true" AllowUpdate="true" IsDisplaySelectButton="false" IsExpanded="true" />
-					</MudContainer>
-				}
-
-			
-			}
-			
-		@* 	<div class="SVELTE_HYDRATER contents" data-target="UserSubscriptionForm" data-props="{&quot;isUserAuth&quot;:true,&quot;next&quot;:null,&quot;theme&quot;:&quot;light&quot;}">
-				<div>
-					<div class="alert alert-error whitespace-pre-wrap !rounded-t-none">Error: Your primary email must be confirmed to access paid features.</div> <div class="py-4">
-						<div class="flex h-40 w-full items-center justify-center">
-							<svg class="animate-spin mr-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" fill="none" focusable="false" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-							Initializing Payment...
-						</div>
-					</div>
-				</div>
-			</div> *@
-	
-	</div>
-</main>
+<TabelDashCard T="DataBuildUserSubscriptionInfo" DataAndEventBuildTabel="dataAndEvent" 
+                                  StateCounts="cardStates"
+                                  ActionTabels="groupAction" />
 
 @code{
 
 
-	[Parameter] public List<UserSubscription> DataBuild { get => _dataBuild; set => _dataBuild = value; }
-
-	private List<UserSubscription> _dataBuild = new List<UserSubscription>();
-
-	private  string CurrentLanguage = "ar";
-
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-
-		if (firstRender)
-		{
-	
-			CurrentLanguage = await _manageLanguageService.GetLanguageAsync();
-			InvokeAsync(StateHasChanged);
 
 
-		}
-
-		
-
-	}
-	private void ChangeLanguage(string language)
-	{
-		CurrentLanguage = language;
-		InvokeAsync(StateHasChanged);
-	}
+    DataAndEventBuildTabelCard<DataBuildUserSubscriptionInfo> dataAndEvent = null;
+    private string lg = "ar";
+    protected override void OnInitialized()
+    {
 
 
-	private void OnSubmitUpgradePlan(SubscriptionPlanInfo plan)
-	{
-		Navigation.NavigateTo("/payment/"+plan.Id);
-	}
 
-	private string GetTranslation(string key)
-	{
-		return CurrentLanguage == "ar"
-			? TransAr.GetValueOrDefault(key, key)
-			: TransEn.GetValueOrDefault(key, key);
-	}
+        dataAndEvent = new()
+            {
+                DataBuild = GetArabicSubscriptions(),
+                LabelColumns = ColumnsTrans[lg].ToList(),
 
-	private Dictionary<string, string> TransEn = new Dictionary<string, string>()
-	{
-		{ "SubscribeToPro", "Subscribe to Pro" },
+                Events = new()
+                {
+                    OnRowClicked = EventCallback.Factory.Create<DataBuildUserSubscriptionInfo>(this, OnRowClicked)
+                }
+            };
 
-	};
+        cardStates = new()
+        {
 
-	private Dictionary<string, string> TransAr = new Dictionary<string, string>()
-	{
-		{ "SubscribeToPro", "الترقية الى  Pro" },
+            new()
+            {
+                Value="6",
+                Label="Active"
 
-	};
+            },
+
+             new()
+            {
+                 Value="1",
+                Label="UnActive"
+            }
+            ,
+            new()
+            {
+                 Value="1",
+                Label="UnActive"
+            }
+            ,
+            new()
+            {
+                 Value="1",
+                Label="UnActive"
+            }
+
+
+
+        };
+        groupAction.Actions = new()
+        {
+             new()
+            {
+                Icon=@Icons.Material.Filled.AddCircle
+                ,
+
+            },
+              new()
+            {
+                Icon=@Icons.Material.Filled.AddCircle
+                ,
+
+            }
+            ,
+
+            new()
+            {
+                Icon=@Icons.Material.Filled.AddCircle
+                ,
+                Tag="create"
+            },
+            new()
+            {
+                Icon=@Icons.Material.Filled.Delete
+                ,
+                IsMudChip=false,
+                Tag="delete"
+            }
+        };
+        groupAction.ChipClicked += OnChipClicked;
+    }
+
+
+    List<CardStateCount<string>>? cardStates = null;
+
+    GroupActionTabels groupAction = new GroupActionTabels();
+
+    private Task OnRowClicked(DataBuildUserSubscriptionInfo data)
+    {
+
+        Navigation.NavigateTo("/settings/keys");
+        return Task.CompletedTask;
+
+    }
+
+    private Task OnChipClicked(CardActionTabel action)
+    {
+        if (action.Tag == "delete")
+        {
+            Snackbar.Add("fgffg", Severity.Error);
+
+        }
+        else if(action.Tag=="create")
+        {
+            OpenDialog();
+        }
+
+        return Task.CompletedTask;
+
+    }
+
+    private void OpenDialog()
+    {
+
+
+        
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+
+        var parameters = new DialogParameters<DialogContent>
+        {
+
+            { x =>x.DataBuild1,null },
+
+            {x => x.DataBuildCheck,null},
+            {x=>x.SrcIframe,"https://lahja-core.onrender.com/createspace"}
+        };
+
+        DialogService.Show<DialogContent>("", parameters, options);
+    }
+
+
+
+
+	List<DataBuildUserSubscriptionInfo> GetEnglishSubscriptions()
+    {
+        return new List<DataBuildUserSubscriptionInfo>
+        {
+            new DataBuildUserSubscriptionInfo { Id = "1", BillingPeriod = "Monthly", StartDate = new DateTime(2024, 1, 1), Status = "Active", CancelAtPeriodEnd = false, ProductName = "Bronze Subscription", NumberRequests = 100, Amount = 50.00m, Active = true, Description = "Monthly subscription for new users", UpdatedAt = new DateTime(2024, 1, 2), CreatedAt = new DateTime(2024, 1, 1) },
+            new DataBuildUserSubscriptionInfo { Id = "2", BillingPeriod = "Yearly", StartDate = new DateTime(2023, 6, 15), Status = "Suspended", CancelAtPeriodEnd = true, ProductName = "Silver Subscription", NumberRequests = 500, Amount = 300.00m, Active = false, Description = "Yearly subscription with extra benefits", UpdatedAt = new DateTime(2023, 12, 15), CreatedAt = new DateTime(2023, 6, 15) }
+        };
+    }
+
+     List<DataBuildUserSubscriptionInfo> GetArabicSubscriptions()
+    {
+        return new List<DataBuildUserSubscriptionInfo>
+        {
+            new DataBuildUserSubscriptionInfo { Id = "3", BillingPeriod = "شهري", StartDate = new DateTime(2023, 9, 10), Status = "نشط", CancelAtPeriodEnd = false, ProductName = "اشتراك ذهبي", NumberRequests = 1000, Amount = 100.00m, Active = true, Description = "اشتراك ذهبي مع أولوية الدعم الفني", UpdatedAt = new DateTime(2024, 1, 10), CreatedAt = new DateTime(2023, 9, 10) },
+            new DataBuildUserSubscriptionInfo { Id = "4", BillingPeriod = "نصف سنوي", StartDate = new DateTime(2023, 3, 1), Status = "ملغي", CancelAtPeriodEnd = true, ProductName = "اشتراك بلاتيني", NumberRequests = 2000, Amount = 500.00m, Active = false, Description = "اشتراك نصف سنوي مع وصول غير محدود", UpdatedAt = new DateTime(2023, 9, 1), CreatedAt = new DateTime(2023, 3, 1) }
+        };
+    }
+
+
+        public Dictionary<string, string[]> ColumnsTrans = new Dictionary<string, string[]>
+    {
+        { "en", new string[] {
+            "Id",
+            "BillingPeriod",
+            "StartDate",
+            "Status",
+            "CancelAtPeriodEnd",
+            "ProductName",
+            "NumberRequests",
+            "Amount",
+            "Active",
+            "Description",
+            "UpdatedAt",
+            "CreatedAt"
+        }},
+        { "ar", new string[] {
+            "معرف",
+            "فترة الفوترة",
+            "تاريخ البدء",
+            "الحالة",
+            "إلغاء في نهاية الفترة",
+            "اسم المنتج",
+            "عدد الطلبات",
+            "المبلغ",
+            "نشط",
+            "الوصف",
+            "تاريخ التحديث",
+            "تاريخ الإنشاء"
+        }}
+    };
+    
 
 }

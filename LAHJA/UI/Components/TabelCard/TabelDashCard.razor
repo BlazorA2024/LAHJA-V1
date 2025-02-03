@@ -26,37 +26,30 @@
 
 <div class="p-5">
     <div class="p-1 RCardP">
-<MudAlert Severity="Severity.Normal" Variant="Variant.Filled">
-    @localization[languageIndex]["ReactorType"]
-    <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" />
-    <MudChip T="string" Icon="@Icons.Custom.Uncategorized.Radioactive" Label="true" Color="Color.Primary" style="background:#fff; color:#000000;" OnClose="CloseChip">@localization[languageIndex]["NewTweets"]</MudChip>
-</MudAlert>
+    <MudAlert Severity="Severity.Normal" Variant="Variant.Filled">
+        @localization[languageIndex]["ReactorType"]
+        <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" />
+        <MudChip T="string" Icon="@Icons.Custom.Uncategorized.Radioactive" Label="true" Color="Color.Primary" style="background:#fff; color:#000000;" OnClose="CloseChip">@localization[languageIndex]["NewTweets"]</MudChip>
+    </MudAlert>
 
 
-    
-    <MudText class="custom-container ">
-            @foreach (var data in Enumerable.Range(1, 3))
-            {
-                <MudTextField T="string" class="Clearable" ReadOnly Text="@data.ToString()" Label="@localization[languageIndex]["ClearableOutlined"]" Variant="Variant.Outlined" />
-            }
-        </MudText>
-        <div class="custom-container">
-            @foreach (var i in Enumerable.Range(1, 5))
-            {
-                <MudChip T="string" OnClick="OnChipClicked" Icon="@Icons.Material.Filled.AddCircle" Color="Color.Default">@localization[languageIndex]["Clicked"]</MudChip>
-            }
-            <div class="d-flex">
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" />
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
-            </div>
-        </div>
+     <StateCountCard  Params="StateCounts" />
+
+        <ActionTabelCard Params="ActionTabels.Actions"
+                         ChipClicked="ActionTabels.ChipClicked" />
+
     </div>
-
+    @if(DataAndEventBuildTabel.DataBuild.Count>0){
     <TabelData T="T" DataBuild="DataAndEventBuildTabel.DataBuild" 
                       Events="DataAndEventBuildTabel.Events"
-                      Columns="DataAndEventBuildTabel.Columns"
+                      LabelColumns="DataAndEventBuildTabel.LabelColumns"
                       FixedHeader="DataAndEventBuildTabel.FixedHeader"
-                     />
+        />
+    }
+    else
+    {
+        <PlanCreateStart />
+    }
 
 </div>
 
@@ -64,9 +57,15 @@
 
 @code {
 
-    [Parameter] public DataAndEventBuildTabelCard<T> DataAndEventBuildTabel{ set; get; }
+    [Parameter] public DataAndEventBuildTabelCard<T>? DataAndEventBuildTabel{ set; get; }
     // بيانات افتراضية مشابهة لبيانات JSON التي قدمتها
-   
+    [Parameter] public List<CardStateCount<string>>? StateCounts { set; get; }
+
+
+    [Parameter] public GroupActionTabels? ActionTabels { set; get; }
+
+
+
     private bool fixedheader = true;
     private string _string = string.Empty;
 
@@ -134,17 +133,23 @@
         }
     };
 
+  
+    protected override void OnInitialized()
+    {
+        
+
+
+    }
+
+
+
     // دالة لغلق الـ Chip
     private void CloseChip()
     {
         // منطق لغلق الـ Chip
     }
 
-    // دالة للتعامل مع الضغط على الـ Chip
-    private void OnChipClicked()
-    {
-        // منطق عند الضغط على الـ Chip
-    }
+   
 }
     // تعريف كائن البيانات
 

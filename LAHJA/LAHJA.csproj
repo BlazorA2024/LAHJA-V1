@@ -44,6 +44,7 @@
 	  <Folder Include="ApplicationLayer\Roles\" />
 	  <Folder Include="ApplicationLayer\ServiceMethod\" />
 	  <Folder Include="ApplicationLayer\Setting\" />
+	  <Folder Include="Data\UI\Components\Space\" />
 	  <Folder Include="Data\UI\Components\Profile\" />
 	  <Folder Include="Data\UI\Templates\NewFolder1\" />
 	  <Folder Include="Data\UI\Templates\Request\" />
