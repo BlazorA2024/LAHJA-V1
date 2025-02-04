@@ -1,24 +1,17 @@
 ﻿
 
-
+@if(Value.GetType() ==typeof(RenderFragment))
+{
+    @((RenderFragment)Value)
+}
+else
+{
+    @Value
+}
 
 @code {
-    [Parameter] public object State { set; get; }
-    private Color color = Color.Default;
+    [Parameter] public object Value { set; get; }
+   
 
-    protected override void OnInitialized()
-    {
-        var s = State.ToString();
-        if (s == "نشط" || s == "Active" || s == "True")
-        {
-            color = Color.Success;
-        }
-        else
-        {
-            color = Color.Error;
-
-        }
-        StateHasChanged();
-
-    }
+   
 }

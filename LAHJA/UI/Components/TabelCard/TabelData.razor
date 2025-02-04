@@ -1,6 +1,14 @@
 ﻿@using LAHJA.Data.UI.Components
+<style>
 
+    .header-tabel-th{
+
+        font-weight:bold !important
+    }
+</style>
 @typeparam T
+
+
 
 <MudTable T="T" Items="@DataBuild" Hover="true" Dense="false" FixedHeader="@FixedHeader"
           Style="@(FixedHeader ? "height:300px;" : "")"
@@ -18,7 +26,7 @@
 
         @foreach (var column in (LabelColumns.Count > 0?LabelColumns: Columns))
         {
-            <MudTh>@column</MudTh>
+            <MudTh  Class="header-tabel-th" >@column</MudTh>
         }
                   </HeaderContent>
 
@@ -36,9 +44,9 @@
             {
             if (column != "Status")
             {
-                <MudTd>@GetPropertyValue(context, column)
-                  
-                     
+                <MudTd>
+
+                    <CellCard Value="@GetPropertyValue(context, column)" />
                 </MudTd>
             }
             else
@@ -119,5 +127,37 @@
     private string RowStyle(T item, int rowIndex)
     {
         return Events.OnRowRender != null ? Events.OnRowRender(item, rowIndex) : (rowIndex % 2 == 0 ? "background-color: #f9f9f9;" : "");
+    }
+    List<RenderFragment> getRowFragmentS()
+    {
+
+        return new() { CreateDynamicComponent(typeof(MudButton), new Dictionary<string, object>
+{
+    { "Variant", Variant.Filled },
+    { "Color", Color.Primary },
+    { "ChildContent", (RenderFragment)(b => b.AddContent(0, "انقر هنا")) },
+    { "OnClick", EventCallback.Factory.Create(this, () => Console.WriteLine("تم الضغط!")) }
+})
+
+        };
+    }
+
+    private RenderFragment CreateDynamicComponent(Type componentType, Dictionary<string, object> parameters = null)
+    {
+        return builder =>
+        {
+            builder.OpenComponent(0, componentType); // فتح وسم المكون
+
+            if (parameters != null)
+            {
+                int seq = 1;
+                foreach (var param in parameters)
+                {
+                    builder.AddAttribute(seq++, param.Key, param.Value);
+                }
+            }
+
+            builder.CloseComponent(); // إغلاق وسم المكون
+        };
     }
 }

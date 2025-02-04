@@ -1,8 +1,18 @@
 ﻿@using LAHJA.Data.UI.Components
 
+
+<style>
+    .custom-container-actintabel {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1px;
+/*         margin: 20px auto;
+ */    }
+ </style>
 @if (Params != null)
 {
-<div class="custom-container">
+<div class="custom-container-actintabel">
         @foreach (var action in Params)
     {
 

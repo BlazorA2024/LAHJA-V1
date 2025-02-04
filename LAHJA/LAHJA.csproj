@@ -44,13 +44,11 @@
 	  <Folder Include="ApplicationLayer\Roles\" />
 	  <Folder Include="ApplicationLayer\ServiceMethod\" />
 	  <Folder Include="ApplicationLayer\Setting\" />
-	  <Folder Include="Data\UI\Components\Space\" />
 	  <Folder Include="Data\UI\Components\Profile\" />
 	  <Folder Include="Data\UI\Templates\NewFolder1\" />
 	  <Folder Include="Data\UI\Templates\Request\" />
 	  <Folder Include="Data\UI\Templates\Setting\" />
 	  <Folder Include="UI\Components\FeatureServices\" />
-	  <Folder Include="UI\Components\NewFolder\" />
 	  <Folder Include="UI\Components\Training\" />
 	  <Folder Include="UI\Components\SidebarMen\" />
 	  <Folder Include="UI\Templates\Sections\Profile\" />

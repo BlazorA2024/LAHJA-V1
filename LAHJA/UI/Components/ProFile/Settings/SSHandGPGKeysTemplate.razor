@@ -15,14 +15,19 @@
 
     DataAndEventBuildTabelCard<DataBuildSpace> dataAndEvent = null;
     private string lg = "ar";
+
+
+
+  
+    private List<RenderFragment> MenuItems = new();
     protected override void OnInitialized()
     {
 
-
+       
 
         dataAndEvent = new()
             {
-                DataBuild = new(),
+                DataBuild = dataList,//new(),
                 LabelColumns = ColomsTrans[lg].ToList(),
 
                 Events = new()
