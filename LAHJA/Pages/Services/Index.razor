@@ -15,6 +15,15 @@
 /*         margin: 20px auto;
  */    
 }
+
+    .section-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    
 </style>
 @* 
 <TemplateServices />
@@ -61,20 +70,72 @@
     <MudCardContent class="custom-container" style="margin-inline-start: auto !important;">
 <div class="d-flex flex-column align-center">
 
-        <MudText GutterBottom="true">Select Reactor Type</MudText>
+        <MudText >Select Reactor Type</MudText>
         <MudButton Variant="Variant.Text" Color="Color.Primary">Read More</MudButton>
            </div>
             <MudDivider Vertical="true" FlexItem="true" />
-<div class="d-flex flex-column align-center">
+           <div class="d-flex flex-column align-center">
 
         <MudText GutterBottom="true">Select Reactor Type</MudText>
-        <MudButton Variant="Variant.Text" Color="Color.Primary">Read More</MudButton>
+            <MudButton Variant="Variant.Text" Color="Color.Primary">$@NextInvoiceAmount on @NextInvoiceDate</MudButton>
       </div>
+      <div class="d-flex flex-column align-center">
 
-    </MudCardContent>
-
-  
+            <MudText GutterBottom="true">    Model this subscription through</MudText>
+            <MudButton Variant="Variant.Text" Color="Color.Primary">$@NextInvoiceAmount on @NextInvoiceDate</MudButton>
+      </div>
+      </MudCardContent>
 </MudCard>
+<MudCard>
+    <MudCardContent class="custom-container" style="margin-inline-start: auto !important; gap: 200px !important;">
+        
+        <!-- Section 1: Reactor Type Selection -->
+        <div class="section-container">
+            <MudText GutterBottom="true">Select Reactor Type</MudText>
+            <MudButton Variant="Variant.Text" Color="Color.Primary">Read More</MudButton>
+        </div>
+
+        <!-- Section 2: Reactor Type Selection (Again) -->
+        <div class="section-container">
+            <MudText GutterBottom="true">Select Reactor Type</MudText>
+            <MudButton Variant="Variant.Text" Color="Color.Primary">Read More</MudButton>
+        </div>
+
+        <!-- Section 3: Email Link and Button -->
+        <div class="section-container">
+            <MudLink Href="#" Typo="Typo.body2">
+                admin@gmail.com
+                <MudIcon Icon="@Icons.Material.Filled.Person" />
+            </MudLink>
+            <MudText Typo="Typo.body2" Variant="Variant.Text" Color="Color.Primary">$@NextInvoiceAmount on @NextInvoiceDate</MudText>
+        </div>
+
+        <!-- Vertical Divider -->
+
+        <!-- Information Section -->
+        <div class="info-section">
+            <MudText Typo="Typo.body2">Customer</MudText>
+             <MudText Typo="Typo.body2">Created</MudText>
+            <MudText Typo="Typo.body2">Current period</MudText>
+        </div>
+        
+    </MudCardContent>
+</MudCard>
+
+
+<InvoiceProperty Label="Started" Value="@StartDate" />
+<InvoiceProperty Label="Next Invoice">
+    <a href="@NextInvoiceUrl">$@NextInvoiceAmount on @NextInvoiceDate</a>
+</InvoiceProperty>
+<InvoiceProperty Label="Test Mode Auto-Cancellation" Value="@AutoCancelDate" />
+
+@code {
+    private string StartDate = "Jan 27";
+    private string NextInvoiceDate = "Feb 27";
+    private decimal NextInvoiceAmount = 250.00M;
+    private string NextInvoiceUrl = "/test/customers/cus_Rf23xXm2a6TGqt/upcoming_invoice/sub_1QlhzSB7xaGIYuCbChhHGlbH";
+    private string AutoCancelDate = "Apr 27";
+}
 
 @code {
     private void ShowMenu()

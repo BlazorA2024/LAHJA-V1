@@ -1,4 +1,4 @@
-﻿@* @using Domain.ShareData
+﻿@*  @using Domain.ShareData
 @using LAHJA.Data.UI.Components.Base
 @using LAHJA.Data.UI.Components.Plan
 @using LAHJA.Data.UI.Components.Subscriptions
@@ -8,9 +8,9 @@
 <SubscriptionsTabelCard TItem="YourItemType" itemOptions="yourItemLis" displayProperty="Name" />
 <SubscriptionsTabelCard TItem="YourItemType" itemOptions="yourItemLis" displayProperty="Name" />
 <SubscriptionsTabelCard TItem="YourItemType" itemOptions="yourItemLis" displayProperty="Name" />
-@* <FilterbyCard TItem="YourItemType" itemOptions="itemOption" />
- *@
-@* @code
+ <FilterbyCard TItem="YourItemType" itemOptions="itemOption" />
+ 
+ @code
 {
     [Parameter] public List<YourItemType> itemOptions { get; set; }
 
@@ -41,4 +41,5 @@
     //         itemOption = yourItemList;
     //     }
     // }
-} *@
+} 
+ *@

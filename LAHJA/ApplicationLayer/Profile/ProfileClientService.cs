@@ -10,11 +10,11 @@ namespace LAHJA.ApplicationLayer.Profile
 {
     public class ProfileClientService
     {
-        private readonly ProfileClient profileService;
+        private readonly ProfileService profileService;
         private readonly TokenService tokenService;
         private readonly IMapper _mapper;
 
-        public ProfileClientService(ProfileClient profileService,
+        public ProfileClientService(ProfileService profileService,
             IMapper mapper,
             TokenService tokenService)
         {
@@ -25,11 +25,11 @@ namespace LAHJA.ApplicationLayer.Profile
         }
 
 
-        public async Task<ICollection<SubscriptionResponse>> SubscriptionsAsync()
-        {
+        //public async Task<ICollection<SubscriptionResponse>> SubscriptionsAsync()
+        //{
 
-            return await profileService.SubscriptionsAsync();
-        }
+        //    return await profileService.SubscriptionsAsync();
+        //}
 
             //public async Task<Result<ProfileResponse>> GetProfileAsync()
             //{
