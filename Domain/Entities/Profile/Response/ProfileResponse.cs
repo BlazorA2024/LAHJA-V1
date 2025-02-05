@@ -22,4 +22,8 @@ namespace Domain.Entities.Profile
 
         
     }
+
+
+
+
 }

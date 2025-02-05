@@ -126,6 +126,7 @@ namespace Infrastructure
             serviceCollection.AddScoped<IServiceRepository, ServiceRepository>();
             serviceCollection.AddScoped<ICreditCardRepository, CreditCardRepository>();
             serviceCollection.AddScoped<IRequestRepository, RequestRepository>();
+
         }    
       
     }

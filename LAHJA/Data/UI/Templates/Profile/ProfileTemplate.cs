@@ -1,10 +1,12 @@
-﻿using AutoMapper;
+﻿using Application.Services.Profile;
+using AutoMapper;
 using Domain.Entities.Plans.Response;
 using Domain.Entities.Profile;
 using Domain.ShareData.Base;
 using Domain.Wrapper;
 using LAHJA.ApplicationLayer.Profile;
 using LAHJA.ApplicationLayer.Profile;
+using LAHJA.Data.UI.Components;
 using LAHJA.Data.UI.Components.Plan;
 using LAHJA.Data.UI.Components.ProFileModel;
 using LAHJA.Data.UI.Templates.Base;
@@ -45,12 +47,22 @@ namespace LAHJA.Data.UI.Templates.Profile
         Task<Result<DeleteResponse>> DeleteAsync(T data);
         Task<Result<ProfileResponse>> UpdateAsync(T data);
 
+        Task<ICollection<ProfileSubscriptionResponse>> SubscriptionsAsync();
+
+        Task<ICollection<ProfileModelAiResponse>> ModelAisAsync();
+        Task<ICollection<ProfileServiceResponse>> ServicesAsync();
+        Task<ICollection<ProfileServiceResponse>> ServicesModelAiAsync(string modelAiId);
+        Task<ICollection<ProfileSpaceResponse>> SpacesSubscriptionAsync(string subscriptionId);
+        Task<ProfileSpaceResponse> SpaceSubscriptionAsync(string subscriptionId, string spaceId);
 
 
 
 
 
-    }
+
+
+
+        }
 
     public abstract class BuilderProfileApi<T, E> : BuilderApi<T, E>, IBuilderProfileApi<E>
     {
@@ -68,7 +80,12 @@ namespace LAHJA.Data.UI.Templates.Profile
 
 
         public abstract Task<Result<ProfileResponse>> GetProfileAsync();
-
+        public abstract Task<ICollection<ProfileModelAiResponse>> ModelAisAsync();
+        public abstract Task<ICollection<ProfileServiceResponse>> ServicesAsync();
+        public abstract Task<ICollection<ProfileServiceResponse>> ServicesModelAiAsync(string modelAiId);
+        public abstract Task<ICollection<ProfileSpaceResponse>> SpacesSubscriptionAsync(string subscriptionId);
+        public abstract Task<ProfileSpaceResponse> SpaceSubscriptionAsync(string subscriptionId, string spaceId);
+        public abstract Task<ICollection<ProfileSubscriptionResponse>> SubscriptionsAsync();
 
         public abstract Task<Result<ProfileResponse>> UpdateAsync(E data);
 
@@ -83,6 +100,11 @@ namespace LAHJA.Data.UI.Templates.Profile
         public Func<T, Task> SubmitCreate { get; set; }
         public Func<T, Task> SubmitDelete { get; set; }
         public Func<T, Task> SubmitUpdate { get; set; }
+
+
+
+      
+
 
 
     }
@@ -142,15 +164,64 @@ namespace LAHJA.Data.UI.Templates.Profile
             throw new NotImplementedException();
         }
 
-        public override Task<Result<ProfileResponse>> GetProfileAsync()
+        public override  async Task<ProfileSpaceResponse> SpaceSubscriptionAsync(string subscriptionId, string spaceId)
         {
-            throw new NotImplementedException();
+
+
+            return await Service.SpaceSubscriptionAsync(subscriptionId, spaceId);
+        }
+
+
+
+        public override  async Task<ICollection<ProfileSpaceResponse>> SpacesSubscriptionAsync(string subscriptionId)
+        {
+            return await Service.SpacesSubscriptionAsync(subscriptionId);
+        }
+
+        public override async Task<ICollection<ProfileServiceResponse>> ServicesModelAiAsync(string modelAiId)
+        {
+
+            return await Service.ServicesModelAiAsync(modelAiId);
+
+        }
+
+
+        public override  async Task<ICollection<ProfileModelAiResponse>> ModelAisAsync()
+        {
+
+
+            return await Service.ModelAisAsync();
+
+        }
+
+
+
+
+
+
+        
+
+        public override async Task<ICollection<ProfileSubscriptionResponse>> SubscriptionsAsync()
+        {
+            return await Service.SubscriptionsAsync();
         }
 
         public override Task<Result<ProfileResponse>> UpdateAsync(DataBuildUserProfile data)
         {
             throw new NotImplementedException();
         }
+
+        public override Task<Result<ProfileResponse>> GetProfileAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override async Task<ICollection<ProfileServiceResponse>> ServicesAsync()
+        {
+            return await Service.ServicesAsync();
+        }
+
+
 
         //public override async Task<Result<ProfileResponse>> CreateAsync(DataBuildUserProfile data)
         //{
@@ -259,7 +330,7 @@ namespace LAHJA.Data.UI.Templates.Profile
         public List<string> Errors { get => _errors; }
 
 
-
+         
 
         public TemplateProfile(
             IMapper mapper,
@@ -278,6 +349,32 @@ namespace LAHJA.Data.UI.Templates.Profile
 
             this.builderApi = new BuilderProfileApiClient(mapper, client);
 
+
+
+        }
+
+
+        public async Task<List<DataBuildSpace>> GetDataBuildSpaces(string subscriptionId)
+        {
+
+            var data = await builderApi.SpacesSubscriptionAsync(subscriptionId);
+
+            var rev = mapper.Map<List<DataBuildSpace>>(data);
+
+            return rev;
+
+
+        }
+
+
+        public async Task<List<DataBuildUserSubscriptionInfo>> GetDataBuildSubscriptions()
+        {
+
+            var data = await builderApi.SubscriptionsAsync();
+
+            var rev = mapper.Map<List<DataBuildUserSubscriptionInfo>>(data);
+
+            return rev;
 
 
         }

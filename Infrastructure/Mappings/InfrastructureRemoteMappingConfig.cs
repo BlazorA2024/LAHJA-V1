@@ -1,4 +1,5 @@
 ﻿
+using Domain.Entities.Profile;
 using Domain.ShareData.Base.Auth;
 using Infrastructure.DataSource.Seeds.Models;
 using Infrastructure.Models.BaseFolder.Response;
@@ -27,6 +28,13 @@ namespace Infrastructure.Mappings.Plans
 
             /// Auth
             /// 
+
+            CreateMap<ProfileModelAiResponse,ModelAiResponse>().ReverseMap();
+
+            CreateMap<ProfileSpaceResponse, SpaceResponse>().ReverseMap();
+            CreateMap<ProfileServiceResponse, ServiceResponse>().ReverseMap();
+            CreateMap<ProfileSubscriptionResponse, SubscriptionResponse>().ReverseMap();
+
             CreateMap<AccessTokenResponse, AccessTokenResponseModel>().ReverseMap();
             CreateMap<RefreshRequestModel, RefreshRequest>().ReverseMap();
             //CreateMap<ConfirmationEmailModel, ConfirmationEmailRequest>().ReverseMap();

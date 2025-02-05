@@ -9,6 +9,11 @@
         public string Phone { get; set; } = "+1234567890";
         public string ImageUrl { get; set; } = "https://cdn-avatars.huggingface.co/v1/production/uploads/noauth/SXJTVYmE71adfaZsiGDsE.png";
 
+
+
+
+
+
     }
 
 }
