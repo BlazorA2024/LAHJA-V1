@@ -1,5 +1,6 @@
 ﻿
 @page "/settings/{*Url}"
+@using LAHJA.UI.Templates.Profile
 @using MudBlazor
 @using Domain.ShareData
 @using LAHJA.Data.UI.Components.ProFileModel
@@ -296,7 +297,7 @@ else
                 { "Statistics", typeof(Dashboard) },
                 { "profile", typeof(ProfileForm) },
                 { "Account", typeof(AccountTemplate) },
-                { "SubscriptionTemplate", typeof(Subscription) },
+                { "SubscriptionTemplate", typeof(TemplateSubscriptionsPlan) },
                 { "billing", typeof(BillingSection) },
                 { "authentication", typeof(AuthenticationTemplate) },
                 { "organizations", typeof(OrganizationsTemplate) },

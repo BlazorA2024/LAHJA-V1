@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Domain.Entities.Profile;
 using Domain.Wrapper;
 using Infrastructure.DataSource.ApiClient.Base;
 using Infrastructure.DataSource.ApiClientFactory;
@@ -44,59 +45,74 @@ namespace Infrastructure.DataSource.ApiClient.Profile
 
         }
 
-        public  async  Task<ICollection<SubscriptionResponse>> SubscriptionsAsync()
+        public  async  Task<ICollection<ProfileSubscriptionResponse>> SubscriptionsAsync()
         {
             var client = await GetApiClient();
 
             var response = await client.SubscriptionsAsync();
-            return response;
+            var resModel = _mapper.Map<ICollection<ProfileSubscriptionResponse>>(response);
+
+            return resModel;
 
         }
 
-        public async Task<ICollection<ModelAiResponse>> ModelAisAsync()
+        public async Task<ICollection<ProfileModelAiResponse>> ModelAisAsync()
         {
             var client = await GetApiClient();
 
-            var response = await client.ModelAisAsync();
-            return response;
+            var response = await client.ModelAisAsync(); 
+            var resModel = _mapper.Map<ICollection<ProfileModelAiResponse>>(response);
+
+            return resModel;
 
         }
 
-        public async Task<ICollection<ServiceResponse>> ServicesAsync()
+        public async Task<ICollection<ProfileServiceResponse>> ServicesAsync()
         {
             var client = await GetApiClient();
 
             var response = await client.ServicesAsync();
-            return response;
+            var resModel = _mapper.Map<ICollection<ProfileServiceResponse>>(response);
+
+            return resModel;
+         
 
         }
 
-        public async Task<ICollection<ServiceResponse>> ServicesModelAiAsync(string modelAiId)
+        public async Task<ICollection<ProfileServiceResponse>> ServicesModelAiAsync(string modelAiId)
         {
             var client = await GetApiClient();
 
             var response = await client.ServicesModelAiAsync(modelAiId);
-            return response;
+            var resModel = _mapper.Map<ICollection<ProfileServiceResponse>>(response);
+
+            return resModel;
+       
 
         }
 
-        public async Task<ICollection<SpaceResponse>> SpacesSubscriptionAsync(string subscriptionId)
+        public async Task<ICollection<ProfileSpaceResponse>> SpacesSubscriptionAsync(string subscriptionId)
         {
             var client = await GetApiClient();
 
             var response = await client.SpacesSubscriptionAsync(subscriptionId);
-            return response;
+            var resModel = _mapper.Map<ICollection<ProfileSpaceResponse>>(response);
+
+            return resModel;
+      
 
         }
 
 
-        public async Task<SpaceResponse> SpaceSubscriptionAsync(string subscriptionId, string spaceId)
+        public async Task<ProfileSpaceResponse> SpaceSubscriptionAsync(string subscriptionId, string spaceId)
         {
             var client = await GetApiClient();
 
             var response = await client.SpaceSubscriptionAsync(subscriptionId, spaceId);
-            return response;
+            var resModel = _mapper.Map<ProfileSpaceResponse>(response);
 
+            return resModel;
+           
         }
 
 

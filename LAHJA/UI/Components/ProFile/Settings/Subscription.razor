@@ -10,13 +10,13 @@
 
 
 <TabelDashCard T="DataBuildUserSubscriptionInfo" DataAndEventBuildTabel="dataAndEvent" 
-                                  StateCounts="cardStates"
-                                  ActionTabels="groupAction"
-                                  BarTabel="TranslationsLST" />
-                                  
+StateCounts="cardStates"
+ActionTabels="groupAction"
+BarTabel="TranslationsLST" />
+
 
 @code{
-
+    [Parameter]public  List<DataBuildUserSubscriptionInfo>? DataBuild{ set; get; }
 
     private static readonly Dictionary<string, Dictionary<string, string>> TranslationsLST = new()
         {
@@ -46,7 +46,7 @@
 
         dataAndEvent = new()
             {
-                DataBuild = GetArabicSubscriptions(),
+                DataBuild = DataBuild,
                 LabelColumns = ColumnsTrans[lg].ToList(),
 
                 Events = new()

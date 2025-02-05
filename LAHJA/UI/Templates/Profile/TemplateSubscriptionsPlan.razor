@@ -1,4 +1,5 @@
 ﻿@* @page "/settings/subscriptions" *@
+@using LAHJA.Data.UI.Components
 @using LAHJA.Data.UI.Components.Plan
 @using LAHJA.Data.UI.Components.ProFileModel
 @using LAHJA.UI.Components.Auth
@@ -13,35 +14,27 @@
 
 
 
-@*  @if(Template!=null){
-     <Subscription DataBuild="buildData" />
- } *@
+@if(Template!=null){
+    <Subscription DataBuild="buildData" />
+}
 
 @code{
 
-    // private List<SubscriptionPlanInfo> buildData;
+    private List<DataBuildUserSubscriptionInfo> buildData=new();
 
-    // protected override async Task OnAfterRenderAsync(bool firstRender)
-    // {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
 
-    //     if (firstRender)
-    //     {
-    //         var result = await Template.GetUserSubscriptionsPlanAsync();
+        if (firstRender)
+        {
+            buildData = await Template.GetDataBuildSubscriptions();
 
-    //         if (result.Succeeded)
-    //         {
-    //             buildData = result.Data.ToList();
+            
+        }
 
-    //         }
-    //         else
-    //         {
+        StateHasChanged();
 
-    //         }
-    //     }
-
-    //     StateHasChanged();
-
-    // }
+    }
 
     
 

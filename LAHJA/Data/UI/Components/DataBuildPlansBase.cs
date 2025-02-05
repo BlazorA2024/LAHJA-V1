@@ -101,6 +101,13 @@ namespace LAHJA.Data.UI.Components
         public string Description { get; set; } = "Features ";
 
     }
+
+
+    public  class DataBuildProFileALL
+    {
+
+
+    }
     public class PlanCreateStartData
     {
         public string Label { set; get; } = "create";

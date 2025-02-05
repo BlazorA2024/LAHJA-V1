@@ -21,6 +21,7 @@ using LAHJA.Data.UI.Templates.Services;
 using LAHJA.ApiClient.Models;
 using Domain.Entities.Request.Request;
 using Domain.Entities.Event.Request;
+using LAHJA.Data.UI.Components;
 
 namespace LAHJA.Mappings
 {
@@ -32,7 +33,7 @@ namespace LAHJA.Mappings
 
         
      
-          
+           
             CreateMap<LoginRequest, VitsModel.Auth.LoginRequest>().ReverseMap();
             CreateMap<RegisterRequest, VitsModel.Auth.RegisterRequest>().ReverseMap();
             //CreateMap<PlansContainer, InputCategory>().ReverseMap();
@@ -169,7 +170,10 @@ namespace LAHJA.Mappings
                CreateMap<DataBuildServiceBase, RequestCreate>()
                 .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Text))
                 .ReverseMap();
-            
+
+            CreateMap<DataBuildSpace,ProfileSpaceResponse>().ReverseMap();
+
+            CreateMap<DataBuildUserSubscriptionInfo, ProfileSubscriptionResponse>().ReverseMap();
 
             //.ForMember(dest => dest.ServiceDetailsList, opt => opt.MapFrom(src => src.Features
             //    .Where(feature => feature.IsFixed==true) 
