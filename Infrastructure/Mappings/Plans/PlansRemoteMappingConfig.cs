@@ -92,15 +92,15 @@ namespace Infrastructure.Mappings.Plans
 
             //////////////////////////////////////////
             
-            CreateMap<Product,ContainerPlansModel>()
-                .ForMember(dest => dest.SubscriptionsPlans, opt => opt.MapFrom(src => src.Plans))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.ProductName))
-                .ReverseMap();
+            //CreateMap<Product,ContainerPlansModel>()
+            //    .ForMember(dest => dest.SubscriptionsPlans, opt => opt.MapFrom(src => src.Plans))
+            //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.ProductName))
+            //    .ReverseMap();
            
-            CreateMap<Plan, SubscriptionPlanModel>()
-             .ForMember(dest => dest.Features, opt => opt.MapFrom(src => src.Services))
-             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductId))
-             .ReverseMap();   
+            //CreateMap<Plan, SubscriptionPlanModel>()
+            // .ForMember(dest => dest.Features, opt => opt.MapFrom(src => src.Services))
+            // .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductId))
+            // .ReverseMap();   
             
             CreateMap<Service, PlanFeatureModel>()
              .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ServiceId))

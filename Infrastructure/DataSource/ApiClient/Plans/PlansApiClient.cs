@@ -179,10 +179,10 @@ namespace Infrastructure.DataSource.ApiClient.Plans
             {
                 var model = _mapper.Map<PlanCreate>(request);
                 var client = await GetApiClient();
-                var response = await client.CreatePlanAsync(model);
+                //var response = null; //await client.CreatePlanAsync(model);
 
 
-                var resModel = _mapper.Map<PlanResponseModel>(response);
+                //var resModel = null;// _mapper.Map<PlanResponseModel>(response);
                 return Result<PlanResponseModel>.Success();
 
             }

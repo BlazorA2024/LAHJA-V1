@@ -46,6 +46,10 @@ namespace LAHJA.Data.UI.Templates.Profile
         Task<Result<ProfileResponse>> UpdateAsync(T data);
 
 
+
+
+
+
     }
 
     public abstract class BuilderProfileApi<T, E> : BuilderApi<T, E>, IBuilderProfileApi<E>
@@ -127,103 +131,123 @@ namespace LAHJA.Data.UI.Templates.Profile
         {
 
         }
-        
-        public override async Task<Result<ProfileResponse>> CreateAsync(DataBuildUserProfile data)
+
+        public override Task<Result<ProfileResponse>> CreateAsync(DataBuildUserProfile data)
         {
-            var model = Mapper.Map<ProfileRequest>(data);
-            var res = await Service.CreateAsync(model);
-            if (res.Succeeded)
-            {
-                try
-                {
-                    var map = Mapper.Map<ProfileResponse>(res.Data);
-                    return Result<ProfileResponse>.Success(map);
-
-                }
-                catch (Exception e)
-                {
-                    return Result<ProfileResponse>.Fail();
-                }
-            }
-            else
-            {
-                return Result<ProfileResponse>.Fail(res.Messages);
-            }
-
-           
+            throw new NotImplementedException();
         }
 
-        public override async Task<Result<DeleteResponse>> DeleteAsync(DataBuildUserProfile data)
+        public override Task<Result<DeleteResponse>> DeleteAsync(DataBuildUserProfile dataId)
         {
-
-            var res = await Service.DeleteAsync(data.Id);
-            if (res.Succeeded)
-            {
-                try
-                {
-                    var map = Mapper.Map<DeleteResponse>(res.Data);
-                    return Result<DeleteResponse>.Success(map);
-
-                }
-                catch (Exception e)
-                {
-                    return Result<DeleteResponse>.Fail();
-                }
-            }
-            else
-            {
-                return Result<DeleteResponse>.Fail(res.Messages);
-            }
+            throw new NotImplementedException();
         }
 
-        public override async Task<Result<ProfileResponse>> GetProfileAsync()
+        public override Task<Result<ProfileResponse>> GetProfileAsync()
         {
-         
-            var res = await Service.GetProfileAsync();
-            return res;
-            //if (res.Succeeded)
-            //{
-            //    try
-            //    {
-            //        var map = Mapper.Map<ProfileResponse>(res.Data);
-            //        return Result<ProfileResponse>.Success(map);
-
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        return Result<ProfileResponse>.Fail();
-            //    }
-            //}
-            //else
-            //{
-            //    return Result<ProfileResponse>.Fail(res.Messages);
-            //}
+            throw new NotImplementedException();
         }
 
-        public override async Task<Result<ProfileResponse>> UpdateAsync(DataBuildUserProfile data)
+        public override Task<Result<ProfileResponse>> UpdateAsync(DataBuildUserProfile data)
         {
-            var model = Mapper.Map<ProfileRequest>(data);
-            var res = await Service.UpdateAsync(model);
-            return res;
-            //if (res.Succeeded)
-            //{
-            //    try
-            //    {
-            //        var map = Mapper.Map<ProfileResponse>(res.Data);
-            //        return Result<ProfileResponse>.Success(map);
-
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        return Result<ProfileResponse>.Fail();
-            //    }
-            //}
-            //else
-            //{
-            //    return Result<ProfileResponse>.Fail(res.Messages);
-            //}
-     
+            throw new NotImplementedException();
         }
+
+        //public override async Task<Result<ProfileResponse>> CreateAsync(DataBuildUserProfile data)
+        //{
+        //    var model = Mapper.Map<ProfileRequest>(data);
+        //    var res = await Service.CreateAsync(model);
+        //    if (res.Succeeded)
+        //    {
+        //        try
+        //        {
+        //            var map = Mapper.Map<ProfileResponse>(res.Data);
+        //            return Result<ProfileResponse>.Success(map);
+
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            return Result<ProfileResponse>.Fail();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return Result<ProfileResponse>.Fail(res.Messages);
+        //    }
+
+
+        //}
+
+        //public override async Task<Result<DeleteResponse>> DeleteAsync(DataBuildUserProfile data)
+        //{
+
+        //    var res = await Service.DeleteAsync(data.Id);
+        //    if (res.Succeeded)
+        //    {
+        //        try
+        //        {
+        //            var map = Mapper.Map<DeleteResponse>(res.Data);
+        //            return Result<DeleteResponse>.Success(map);
+
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            return Result<DeleteResponse>.Fail();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return Result<DeleteResponse>.Fail(res.Messages);
+        //    }
+        //}
+
+        //public override async Task<Result<ProfileResponse>> GetProfileAsync()
+        //{
+
+        //    var res = await Service.GetProfileAsync();
+        //    return res;
+        //    //if (res.Succeeded)
+        //    //{
+        //    //    try
+        //    //    {
+        //    //        var map = Mapper.Map<ProfileResponse>(res.Data);
+        //    //        return Result<ProfileResponse>.Success(map);
+
+        //    //    }
+        //    //    catch (Exception e)
+        //    //    {
+        //    //        return Result<ProfileResponse>.Fail();
+        //    //    }
+        //    //}
+        //    //else
+        //    //{
+        //    //    return Result<ProfileResponse>.Fail(res.Messages);
+        //    //}
+        //}
+
+        //public override async Task<Result<ProfileResponse>> UpdateAsync(DataBuildUserProfile data)
+        //{
+        //    var model = Mapper.Map<ProfileRequest>(data);
+        //    var res = await Service.UpdateAsync(model);
+        //    return res;
+        //    //if (res.Succeeded)
+        //    //{
+        //    //    try
+        //    //    {
+        //    //        var map = Mapper.Map<ProfileResponse>(res.Data);
+        //    //        return Result<ProfileResponse>.Success(map);
+
+        //    //    }
+        //    //    catch (Exception e)
+        //    //    {
+        //    //        return Result<ProfileResponse>.Fail();
+        //    //    }
+        //    //}
+        //    //else
+        //    //{
+        //    //    return Result<ProfileResponse>.Fail(res.Messages);
+        //    //}
+
+        //}
     }
 
 
