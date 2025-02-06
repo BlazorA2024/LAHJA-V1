@@ -4,20 +4,43 @@ using MudBlazor;
 namespace LAHJA.Data.UI.Components
 {
 
-	public class DataBuildUserSubscriptionInfo
+
+
+    public class DataBuildUserModelAi
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Category { get; set; }
+
+        public string Language { get; set; }
+
+        public bool? IsStandard { get; set; }
+
+        public string Gender { get; set; }
+
+        public string Dialect { get; set; }
+
+        public string Type { get; set; }
+
+
+    }
+    public class DataBuildUserSubscriptionInfo
 	{
 		public string Id { get; set; }
-		public string BillingPeriod { get; set; }
-		public DateTime StartDate { get; set; }
+
+        public string? PlanId { get; set; }
+        //public string? CustomerId { get; set; }
+        //public string BillingPeriod { get; set; }
+		public DateTimeOffset StartDate { get; set; }
 		public string Status { get; set; }
 		public bool CancelAtPeriodEnd { get; set; }
 		public string ProductName { get; set; }
 		public int NumberRequests { get; set; }
 		public decimal Amount { get; set; }
-		public bool Active { get; set; }
-		public string Description { get; set; }
-		public DateTime UpdatedAt { get; set; }
-		public DateTime CreatedAt { get; set; }
+		//public bool Active { get; set; }
+        public string Description { get; set; } = "";
+		//public DateTime UpdatedAt { get; set; }
+		//public DateTime CreatedAt { get; set; }
 	}
 	public class DataBuildPlansBase
         {

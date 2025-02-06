@@ -177,17 +177,22 @@
 
     void onClickFacebookAccount()
     {
-        if (indexAuth == 1)
-            Navigation.NavigateTo("https://www.facebook.com/login");
-        else
-            Navigation.NavigateTo("https://www.facebook.com/r.php");
+
+        Navigation.NavigateTo("https://asg-api.runasp.net/api/ExternalLogin?provider=Google&returnUrl=http%3A%2F%2Flahja.runasp.net");
+        // if (indexAuth == 1)
+        //     Navigation.NavigateTo("https://www.facebook.com/login");
+        // else
+        //     Navigation.NavigateTo("https://www.facebook.com/r.php");
     }    
     void onClickGoogleAccount()
     {
-        if (indexAuth == 1)
-            Navigation.NavigateTo("https://accounts.google.com/ServiceLogin");
-        else
-            Navigation.NavigateTo("https://accounts.google.com/signup");
+
+        Navigation.NavigateTo("https://asg-api.runasp.net/api/ExternalLogin?provider=Google&returnUrl=http%3A%2F%2Flahja.runasp.net");
+
+        // if (indexAuth == 1)
+        //     Navigation.NavigateTo("https://accounts.google.com/ServiceLogin");
+        // else
+        //     Navigation.NavigateTo("https://accounts.google.com/signup");
     }
 
 

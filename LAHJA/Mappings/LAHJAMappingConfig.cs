@@ -174,6 +174,8 @@ namespace LAHJA.Mappings
             CreateMap<DataBuildSpace,ProfileSpaceResponse>().ReverseMap();
 
             CreateMap<DataBuildUserSubscriptionInfo, ProfileSubscriptionResponse>().ReverseMap();
+            CreateMap<DataBuildUserModelAi, ProfileModelAiResponse>().ReverseMap();
+
 
             //.ForMember(dest => dest.ServiceDetailsList, opt => opt.MapFrom(src => src.Features
             //    .Where(feature => feature.IsFixed==true) 

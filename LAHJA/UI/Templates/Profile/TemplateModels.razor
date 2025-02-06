@@ -1,39 +1,61 @@
-﻿@using LAHJA.Data.UI.Components
+﻿
+@using LAHJA.Data.UI.Components
+
+
+
+@using LAHJA.UI.Components.ProFile.Settings
+
+
+@inject LAHJA.Data.UI.Templates.Profile.TemplateProfile Template
+
+
+
+
+
+@using LAHJA.Data.UI.Components
 @using LAHJA.UI.Components.ServiceCard
 @using LAHJA.UI.Components.TabelCard
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 
+@if (Template != null && dataAndEvent!=null)
+{
+    <TabelDashCard T="DataBuildUserModelAi" DataAndEventBuildTabel="dataAndEvent"
+                   StateCounts="cardStates"
+                   ActionTabels="groupAction"
+                   BarTabel="TranslationsLST" />
+}
 
-<TabelDashCard T="DataBuildSpace" DataAndEventBuildTabel="dataAndEvent" 
-                                  StateCounts="cardStates"
-                                  ActionTabels="groupAction"
-                                  BarTabel="TranslationsLST" />
 
-@code{
+@code {
 
 
-    DataAndEventBuildTabelCard<DataBuildSpace> dataAndEvent = null;
+
+    DataAndEventBuildTabelCard<DataBuildUserModelAi> dataAndEvent = null;
     private string lg = "ar";
 
 
 
-  
- 
-    protected override void OnInitialized()
+    [Parameter]
+    public string subscriptionId { set; get; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
 
-       
 
-        dataAndEvent = new()
-            {
-                DataBuild = dataList,//new(),
-                LabelColumns = ColomsTrans[lg].ToList(),
 
-                Events = new()
-            };
+        if (firstRender)
+        {
 
-        cardStates = new()
+            dataAndEvent = new()
+                {
+                    DataBuild = await Template.GetDataBuildModelAis(),//new(),
+                                                                      //   LabelColumns = ColomsTrans[lg].ToList(),
+
+                    Events = new()
+                };
+
+            cardStates = new()
         {
 
             new()
@@ -52,7 +74,7 @@
 
 
         };
-        groupAction.Actions = new()
+            groupAction.Actions = new()
         {
             new()
             {
@@ -70,7 +92,11 @@
                 Tag="delete"
             }
         };
-        groupAction.ChipClicked += OnChipClicked;
+            groupAction.ChipClicked += OnChipClicked;
+
+        }
+
+        StateHasChanged();
     }
 
 
@@ -85,7 +111,7 @@
             Snackbar.Add("fgffg", Severity.Error);
 
         }
-        else if(action.Tag=="create")
+        else if (action.Tag == "create")
         {
             OpenDialog();
         }
@@ -98,7 +124,7 @@
     {
 
 
-        
+
         var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
 
 
@@ -125,31 +151,14 @@
             },
             ["ar"] = new()
             {
-                ["Text1"] = "انشى مساحاتك ",
+                ["Text1"] = "اخنر  نماذج الذكاء الاصطناعي" ,
                 ["Text2"] = "لهجة AI",
                 ["Description"] = "توفر  منصة لهجة  طريقة ذكية للتواصل مع الذكاء الاصطناعي بلهجتك الخاصة.",
-                ["ButtonLink"] = "انشاء مساحة "
+                ["ButtonLink"] = "انشاء نموذج "
             }
         };
 
 
-    Dictionary<string, string[]> ColomsTrans = new Dictionary<string, string[]>
-        {
-            { "en", new string[] { "ID", "Name", "Description", "RAM", "CPU Cores", "Disk Space", "GPU", "Global", "Bandwidth" } },
-            { "ar", new string[] { "المعرف", "الاسم", "الوصف", "الذاكرة العشوائية", "أنوية المعالج", "مساحة القرص", "وحدة معالجة الرسوميات", "عالمي", "عرض النطاق الترددي" } }
-        };
-    private List<DataBuildSpace> dataList = new List<DataBuildSpace>
-    {
-    new DataBuildSpace
-    {
-    Id = "1", Name = "Reactor 1", Description = "A powerful reactor", Ram = 16, CpuCores = 8, DiskSpace = 512, IsGpu = true, IsGlobal = true, Bandwidth = 100
-    },
-    new DataBuildSpace
-    {
-             Id = "2", Name = "Reactor 2", Description = "A powerful reactor", Ram = 16, CpuCores = 8, DiskSpace = 512, IsGpu = true, IsGlobal = true, Bandwidth = 100
-    },
-
-    };
 
 
 

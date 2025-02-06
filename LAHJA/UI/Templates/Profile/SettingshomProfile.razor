@@ -1,6 +1,7 @@
 ﻿
 @page "/settings/{*Url}"
-@using LAHJA.UI.Templates.Profile
+
+@using LAHJA.UI.Components.ProFile
 @using MudBlazor
 @using Domain.ShareData
 @using LAHJA.Data.UI.Components.ProFileModel
@@ -159,6 +160,8 @@ else
 
     private bool _open = false;
     [Parameter] public string Url { get; set; } = "profile"; 
+    [Parameter] public string Filter { get; set; } = "profile";
+
     [Parameter] public DataBuildUserProfile DataBuild { get => data; set => data=value; }
 
     private static string CurrentLanguage = "ar";
@@ -207,7 +210,7 @@ else
                 ["Account"] = "Account",
                 ["Subscriptions"] = "Subscriptions",
                 ["Authentication"] = "Authentication",
-                ["Organizations"] = "Organizations",
+                ["models"] = "Models",
                 ["Billing"] = "Billing",
                 ["Access Tokens"] = "Access Tokens",
                 ["SSH and GPG Keys"] = "SSH and GPG Keys",
@@ -229,7 +232,7 @@ else
                 ["Account"] = "الحساب",
                 ["Subscriptions"] = "الاشتراكات",
                 ["Authentication"] = "التحقق",
-                ["Organizations"] = "المنظمات",
+                ["models"] = "النماذج",
                 ["Billing"] = "الفوترة",
                 ["Access Tokens"] = "رموز الوصول",
                 ["SSH and GPG Keys"] = "مفاتيح SSH و GPG",
@@ -250,11 +253,12 @@ else
         NavItems=  new()
         {
             new NavItem { Label = GetLabel("Statistics"),Icon=@Icons.Material.Filled.QueryStats, Url = "settings/Statistics" },
-             new NavItem { Label = GetLabel("Subscriptions"),Icon=@Icons.Material.Filled.Subscriptions, Url = "settings/SubscriptionTemplate" },
-             new NavItem { Label = GetLabel("Spaces"), Url = "settings/keys" },
+            new NavItem { Label = GetLabel("Subscriptions"),Icon=@Icons.Material.Filled.Subscriptions, Url = "settings/SubscriptionTemplate" },
+            new NavItem { Label = GetLabel("Spaces"), Url = "settings/spaces" },
+            new NavItem { Label = GetLabel("models"), Url = "settings/models" },
+
             new NavItem { Label = GetLabel("Billing"), Url = "settings/billing" },
             new NavItem { Label = GetLabel("Authentication"), Url = "settings/authentication" },
-           // new NavItem { Label = GetLabel("Organizations"), Url = "settings/organizations" },
             new NavItem { Label = GetLabel("Access Tokens"), Url = "settings/AccessTokens" },
           //  new NavItem { Label = GetLabel("SSH and GPG Keys"), Url = "settings/keys" },
             new NavItem { Label = GetLabel("Webhooks"), Url = "settings/webhooks" },
@@ -300,9 +304,9 @@ else
                 { "SubscriptionTemplate", typeof(TemplateSubscriptionsPlan) },
                 { "billing", typeof(BillingSection) },
                 { "authentication", typeof(AuthenticationTemplate) },
-                { "organizations", typeof(OrganizationsTemplate) },
+                { "models", typeof(TemplateModels) },
                 { "AccessTokens", typeof(AccessTokensTemplate) },
-                { "keys", typeof(SSHandGPGKeysTemplate) },
+                { "spaces", typeof(TemplateSpaces) },
                 { "keys/addtype=ssh", typeof(KeysAddaSSHkey) },
                 { "keys/addtype=pgp", typeof(Keysaddapgpp) },
                 { "webhooks", typeof(WebhooksTemplate) },
@@ -323,6 +327,7 @@ else
         if (componentMap.TryGetValue(Url, out var componentType))
         {
             builder.OpenComponent(0, componentType);
+            
             builder.CloseComponent();
         }
         else

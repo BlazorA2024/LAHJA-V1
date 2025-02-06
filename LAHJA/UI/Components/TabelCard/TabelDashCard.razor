@@ -4,14 +4,8 @@
 @using LAHJA.UI.Components.TabelCard
 
 @typeparam T
-<style>+
-    .custom-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-/*         margin: 20px auto;
- */    }
+<style>
+    
 
     .custom {
         /*         justify-content: flex-end; /* محاذاة العناصر لليمين */
@@ -39,7 +33,7 @@
                          ChipClicked="ActionTabels.ChipClicked" />
 
     </div>
-    @if(DataAndEventBuildTabel.DataBuild.Count>0){
+    @if(DataAndEventBuildTabel.DataBuild!=null && DataAndEventBuildTabel.DataBuild.Count>0){
     <TabelData T="T" DataBuild="DataAndEventBuildTabel.DataBuild" 
                       Events="DataAndEventBuildTabel.Events"
                       LabelColumns="DataAndEventBuildTabel.LabelColumns"

@@ -47,7 +47,7 @@ BarTabel="TranslationsLST" />
         dataAndEvent = new()
             {
                 DataBuild = DataBuild,
-                LabelColumns = ColumnsTrans[lg].ToList(),
+            //    LabelColumns = ColumnsTrans[lg].ToList(),
 
                 Events = new()
                 {
@@ -127,7 +127,7 @@ BarTabel="TranslationsLST" />
     private Task OnRowClicked(DataBuildUserSubscriptionInfo data)
     {
 
-        Navigation.NavigateTo("/settings/keys");
+        Navigation.NavigateTo($"/settings/spaces/{data.Id}");
         return Task.CompletedTask;
 
     }
@@ -171,23 +171,23 @@ BarTabel="TranslationsLST" />
 
 
 
-	List<DataBuildUserSubscriptionInfo> GetEnglishSubscriptions()
-    {
-        return new List<DataBuildUserSubscriptionInfo>
-        {
-            new DataBuildUserSubscriptionInfo { Id = "1", BillingPeriod = "Monthly", StartDate = new DateTime(2024, 1, 1), Status = "Active", CancelAtPeriodEnd = false, ProductName = "Bronze Subscription", NumberRequests = 100, Amount = 50.00m, Active = true, Description = "Monthly subscription for new users", UpdatedAt = new DateTime(2024, 1, 2), CreatedAt = new DateTime(2024, 1, 1) },
-            new DataBuildUserSubscriptionInfo { Id = "2", BillingPeriod = "Yearly", StartDate = new DateTime(2023, 6, 15), Status = "Suspended", CancelAtPeriodEnd = true, ProductName = "Silver Subscription", NumberRequests = 500, Amount = 300.00m, Active = false, Description = "Yearly subscription with extra benefits", UpdatedAt = new DateTime(2023, 12, 15), CreatedAt = new DateTime(2023, 6, 15) }
-        };
-    }
+	// List<DataBuildUserSubscriptionInfo> GetEnglishSubscriptions()
+ //    {
+ //        return new List<DataBuildUserSubscriptionInfo>
+ //        {
+ //            new DataBuildUserSubscriptionInfo { Id = "1", BillingPeriod = "Monthly", StartDate = new DateTime(2024, 1, 1), Status = "Active", CancelAtPeriodEnd = false, ProductName = "Bronze Subscription", NumberRequests = 100, Amount = 50.00m, Active = true, Description = "Monthly subscription for new users", UpdatedAt = new DateTime(2024, 1, 2), CreatedAt = new DateTime(2024, 1, 1) },
+ //            new DataBuildUserSubscriptionInfo { Id = "2", BillingPeriod = "Yearly", StartDate = new DateTime(2023, 6, 15), Status = "Suspended", CancelAtPeriodEnd = true, ProductName = "Silver Subscription", NumberRequests = 500, Amount = 300.00m, Active = false, Description = "Yearly subscription with extra benefits", UpdatedAt = new DateTime(2023, 12, 15), CreatedAt = new DateTime(2023, 6, 15) }
+ //        };
+ //    }
 
-     List<DataBuildUserSubscriptionInfo> GetArabicSubscriptions()
-    {
-        return new List<DataBuildUserSubscriptionInfo>
-        {
-            new DataBuildUserSubscriptionInfo { Id = "3", BillingPeriod = "شهري", StartDate = new DateTime(2023, 9, 10), Status = "نشط", CancelAtPeriodEnd = false, ProductName = "اشتراك ذهبي", NumberRequests = 1000, Amount = 100.00m, Active = true, Description = "اشتراك ذهبي مع أولوية الدعم الفني", UpdatedAt = new DateTime(2024, 1, 10), CreatedAt = new DateTime(2023, 9, 10) },
-            new DataBuildUserSubscriptionInfo { Id = "4", BillingPeriod = "نصف سنوي", StartDate = new DateTime(2023, 3, 1), Status = "ملغي", CancelAtPeriodEnd = true, ProductName = "اشتراك بلاتيني", NumberRequests = 2000, Amount = 500.00m, Active = false, Description = "اشتراك نصف سنوي مع وصول غير محدود", UpdatedAt = new DateTime(2023, 9, 1), CreatedAt = new DateTime(2023, 3, 1) }
-        };
-    }
+ //     List<DataBuildUserSubscriptionInfo> GetArabicSubscriptions()
+ //    {
+ //        return new List<DataBuildUserSubscriptionInfo>
+ //        {
+ //            new DataBuildUserSubscriptionInfo { Id = "3", BillingPeriod = "شهري", StartDate = new DateTime(2023, 9, 10), Status = "نشط", CancelAtPeriodEnd = false, ProductName = "اشتراك ذهبي", NumberRequests = 1000, Amount = 100.00m, Active = true, Description = "اشتراك ذهبي مع أولوية الدعم الفني", UpdatedAt = new DateTime(2024, 1, 10), CreatedAt = new DateTime(2023, 9, 10) },
+ //            new DataBuildUserSubscriptionInfo { Id = "4", BillingPeriod = "نصف سنوي", StartDate = new DateTime(2023, 3, 1), Status = "ملغي", CancelAtPeriodEnd = true, ProductName = "اشتراك بلاتيني", NumberRequests = 2000, Amount = 500.00m, Active = false, Description = "اشتراك نصف سنوي مع وصول غير محدود", UpdatedAt = new DateTime(2023, 9, 1), CreatedAt = new DateTime(2023, 3, 1) }
+ //        };
+ //    }
 
 
         public Dictionary<string, string[]> ColumnsTrans = new Dictionary<string, string[]>

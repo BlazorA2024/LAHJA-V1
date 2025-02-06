@@ -84,7 +84,13 @@ namespace LAHJA.Data.UI.Templates.Profile
         public abstract Task<ICollection<ProfileServiceResponse>> ServicesAsync();
         public abstract Task<ICollection<ProfileServiceResponse>> ServicesModelAiAsync(string modelAiId);
         public abstract Task<ICollection<ProfileSpaceResponse>> SpacesSubscriptionAsync(string subscriptionId);
-        public abstract Task<ProfileSpaceResponse> SpaceSubscriptionAsync(string subscriptionId, string spaceId);
+
+        public Task<ProfileSpaceResponse> SpaceSubscriptionAsync(string subscriptionId, string spaceId)
+        {
+            throw new NotImplementedException();
+        }
+
+        //public abstract Task<ProfileSpaceResponse> SpaceSubscriptionAsync(string subscriptionId, string spaceId);
         public abstract Task<ICollection<ProfileSubscriptionResponse>> SubscriptionsAsync();
 
         public abstract Task<Result<ProfileResponse>> UpdateAsync(E data);
@@ -164,12 +170,12 @@ namespace LAHJA.Data.UI.Templates.Profile
             throw new NotImplementedException();
         }
 
-        public override  async Task<ProfileSpaceResponse> SpaceSubscriptionAsync(string subscriptionId, string spaceId)
-        {
+        //public override  async Task<ProfileSpaceResponse> SpaceSubscriptionAsync(string subscriptionId, string spaceId)
+        //{
 
 
-            return await Service.SpaceSubscriptionAsync(subscriptionId, spaceId);
-        }
+        //    return await Service.SpaceSubscriptionAsync(subscriptionId, spaceId);
+        //}
 
 
 
@@ -379,6 +385,17 @@ namespace LAHJA.Data.UI.Templates.Profile
 
         }
 
+        public  async Task<List<DataBuildUserModelAi>> GetDataBuildModelAis()
+        {
+
+
+            var data = await builderApi.ModelAisAsync();
+
+            var rev = mapper.Map<List<DataBuildUserModelAi>>(data);
+
+            return rev;
+
+        }
 
 
         private List<ProfileResponse> _Profiles = new List<ProfileResponse>();

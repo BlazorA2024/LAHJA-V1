@@ -14,26 +14,32 @@
 
 
 
-@if(Template!=null){
+@if(Template!=null && buildData!=null){
     <Subscription DataBuild="buildData" />
 }
 
 @code{
 
-    private List<DataBuildUserSubscriptionInfo> buildData=new();
+    private List<DataBuildUserSubscriptionInfo> buildData;
+
+    protected async override void OnInitialized()
+    {
+       
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
 
         if (firstRender)
         {
-            buildData = await Template.GetDataBuildSubscriptions();
-
+           
+             buildData = await Template.GetDataBuildSubscriptions();
+             
             
         }
 
-        StateHasChanged();
 
+        StateHasChanged();
     }
 
     
